@@ -14,7 +14,7 @@ export class UsersService {
     const user = new User()
     user.name =
       createUserDto.name /* Manualmente inserindo os valores no usuario ja que o constructor nao adiciona automaticamente quando criado um novo usuario */
-    user.email = createUserDto.name
+    user.email = createUserDto.email
     user.cpf = createUserDto.cpf
     user.password = createUserDto.password
     user.role = createUserDto.role
