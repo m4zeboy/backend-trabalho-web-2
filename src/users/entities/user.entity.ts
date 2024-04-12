@@ -1,6 +1,7 @@
 import { BaseEntity } from '@core/entities'
-import { Column, Entity } from 'typeorm'
+import { BeforeInsert, Column, Entity } from 'typeorm'
 import { UserRole } from '../types/user-role.enum'
+import { hashSync } from 'bcrypt'
 
 @Entity()
 export class User extends BaseEntity {
@@ -30,4 +31,9 @@ export class User extends BaseEntity {
     default: 'STUDENT',
   })
   public role: UserRole
+
+  @BeforeInsert()
+  encryptPassword() {
+    this.password = hashSync(this.password, 8)
+  }
 }
