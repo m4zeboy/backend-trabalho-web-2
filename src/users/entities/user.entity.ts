@@ -36,6 +36,4 @@ export class User extends BaseEntity {
   encryptPassword() {
     this.password = hashSync(this.password, 8)
   }
-
-  constructor() {}
 }

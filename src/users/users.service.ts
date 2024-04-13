@@ -3,8 +3,9 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './entities/user.entity'
-import { Repository } from 'typeorm'
+import { FindOptionsWhere, ILike, Repository } from 'typeorm'
 import { UserAlreadyExistsException } from '@exceptions/user-already-exists.exception'
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
 
 @Injectable()
 export class UsersService {
@@ -32,8 +33,12 @@ export class UsersService {
     return this.repository.save(user)
   }
 
-  findAll() {
-    return `This action returns all users`
+  findAll(options: IPaginationOptions, search?: string) {
+    const where: FindOptionsWhere<User> = {}
+    if (search) {
+      where.name = ILike(`%${search}%`)
+    }
+    return paginate(this.repository, options, { where })
   }
 
   findOne(id: number) {
