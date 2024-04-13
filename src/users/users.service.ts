@@ -4,14 +4,24 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './entities/user.entity'
 import { Repository } from 'typeorm'
+import { UserAlreadyExistsException } from '@exceptions/user-already-exists.exception'
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     /* DTO - Data Transfer Object */
+    const doesUserAlreadyExists = await this.repository.findOneBy({
+      cpf: createUserDto.cpf,
+    })
+
+    if (doesUserAlreadyExists) {
+      throw new UserAlreadyExistsException()
+    }
+
     const user = new User()
+
     user.name =
       createUserDto.name /* Manualmente inserindo os valores no usuario ja que o constructor nao adiciona automaticamente quando criado um novo usuario */
     user.email = createUserDto.email
