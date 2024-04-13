@@ -1,19 +1,19 @@
 import { BaseEntity } from '@core/entities'
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity } from 'typeorm'
 
 @Entity()
-export class Voucher {
+export class Voucher extends BaseEntity {
+  /* Não precisa colocar o voucher_id, ele vai puxar da base entity */
 
-    @PrimaryGeneratedColumn()
-    voucher_id: number;
+  @Column()
+  order_id: number
 
-    @Column()
-    order_id: number;
+  /* Inicialmente pode não existir, pois ainda não foi validado */
+  @Column()
+  validated_at?: Date
 
-    @Column()
-    validated_at: Date;
-
-    @Column()
-    expires_in: Date;
-
+  @Column({
+    type: 'timestamp',
+  })
+  expires_in: Date
 }
