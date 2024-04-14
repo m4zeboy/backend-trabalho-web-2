@@ -9,6 +9,4 @@ import { Meal } from './entities/meal.entity';
   providers: [MealService], 
   controllers: [MealController]
 })
-
 export class MealModule {}
-

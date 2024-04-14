@@ -1,10 +1,8 @@
-
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { BaseEntity } from '@core/entities'
+import { Entity, Column } from 'typeorm'
 
 @Entity()
-
-export class Meal extends BaseEntity{
-
+export class Meal extends BaseEntity {
   @Column({ type: 'date' })
   public meal_date: Date;
 
