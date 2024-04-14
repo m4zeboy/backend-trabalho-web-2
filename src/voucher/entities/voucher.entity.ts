@@ -12,8 +12,6 @@ export class Voucher extends BaseEntity {
   @Column()
   validated_at?: Date
 
-  @Column({
-    type: 'timestamp',
-  })
+  @Column()
   expires_in: Date
 }
