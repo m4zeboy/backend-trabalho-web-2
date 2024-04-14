@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { CoreModule } from '@core/core.module'
 import { FoodsModule } from './foods/foods.module'
+import { MealModule } from './meal/meal.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FoodsModule } from './foods/foods.module'
     }),
     CoreModule,
     FoodsModule,
+    MealModule,
   ],
   controllers: [AppController],
   providers: [AppService],
