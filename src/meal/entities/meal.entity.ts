@@ -1,19 +1,17 @@
-
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { BaseEntity } from '@core/entities'
+import { Entity, Column } from 'typeorm'
 
 @Entity()
-
-export class Meal extends BaseEntity{
-
+export class Meal extends BaseEntity {
   @Column({ type: 'date' })
-  meal_date: Date;
+  meal_date: Date
 
   @Column()
-  shift: string;
+  shift: string
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  price: number;
+  price: number
 
   @Column()
-  availability: number;
+  availability: number
 }
