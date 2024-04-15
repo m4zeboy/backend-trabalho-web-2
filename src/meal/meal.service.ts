@@ -16,7 +16,7 @@ export class MealService {
     meal.shift = CreateMealDto.shift
     meal.price = CreateMealDto.price
     meal.availability = CreateMealDto.availability
-    return this.repository.save(Meal)
+    return this.repository.save(meal)
   }
 
   async findAll(options: IPaginationOptions, date?: Date, shift?: string) {
