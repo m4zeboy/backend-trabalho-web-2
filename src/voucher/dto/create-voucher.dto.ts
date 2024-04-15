@@ -2,7 +2,6 @@ import { IsDateString, IsNotEmpty, IsNumber, Min } from 'class-validator'
 
 // Definindo as regras de validação para os dados de entrada dos vouchers
 export class CreateVoucherDto {
-
   // Não é necessário colocar o voucher_id pois é gerado automaticamente
   // e o mesmo não percorre pelo DTO.
 
