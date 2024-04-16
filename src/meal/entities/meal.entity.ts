@@ -1,5 +1,6 @@
 import { BaseEntity } from '@core/entities'
-import { Entity, Column } from 'typeorm'
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm'
+import { Food } from '../foods/entities/food.entity'
 
 @Entity()
 export class Meal extends BaseEntity {
@@ -20,4 +21,8 @@ export class Meal extends BaseEntity {
     type: 'int',
   })
   public availability: number
+
+  @ManyToMany(() => Food, (food) => food.meals, { eager: true })
+  @JoinTable()
+  foods: Food[]
 }
