@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { CoreModule } from '@core/core.module'
-import { FoodsModule } from './foods/foods.module'
 import { MealModule } from './meal/meal.module'
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from '@nestjs/config'
 import { UsersModule } from './auth/users/users.module'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
-import { OrdersModule } from './orders/orders.module';
+import { OrdersModule } from './orders/orders.module'
+import { FoodsModule } from './meal/foods/foods.module'
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { OrdersModule } from './orders/orders.module';
     FoodsModule,
     MealModule,
     AuthModule,
-    PedidosModule,
+    // PedidosModule,
     OrdersModule,
   ],
   controllers: [],

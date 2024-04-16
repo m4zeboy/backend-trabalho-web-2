@@ -10,12 +10,8 @@ import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
 export class MealService {
   constructor(@InjectRepository(Meal) private repository: Repository<Meal>) {}
 
-  async create(CreateMealDto: CreateMealDto) {
-    const meal = new Meal()
-    meal.meal_date = CreateMealDto.meal_date
-    meal.shift = CreateMealDto.shift
-    meal.price = CreateMealDto.price
-    meal.availability = CreateMealDto.availability
+  async create(createMealDto: CreateMealDto) {
+    const meal = this.repository.create(createMealDto)
     return this.repository.save(meal)
   }
 

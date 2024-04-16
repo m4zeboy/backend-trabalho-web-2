@@ -6,7 +6,11 @@ import {
   Min,
   IsNumber,
   IsDateString,
+  ValidateNested,
+  IsArray,
 } from 'class-validator'
+import { Food } from '../foods/entities/food.entity'
+import { Type } from 'class-transformer'
 
 export class CreateMealDto {
   // Não é necessário colocar o meal_id pois é gerado automaticamente
@@ -29,4 +33,9 @@ export class CreateMealDto {
   @IsNotEmpty()
   @Min(1)
   public availability: number
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Food)
+  public foods: Food[]
 }
