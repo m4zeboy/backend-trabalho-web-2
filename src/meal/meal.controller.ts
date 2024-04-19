@@ -6,9 +6,13 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common'
 import { MealService } from './meal.service'
 import { CreateMealDto } from './dto/create-meal-dto'
+import { UserRole } from 'src/auth/users/types/user-role.enum'
+import { RequiresRole } from '@core/decorators/requires-role.decorator'
+import { RolesGuard } from 'src/auth/guards/role.guard'
 
 @Controller('meal')
 export class MealController {
@@ -17,11 +21,12 @@ export class MealController {
   constructor(private readonly mealService: MealService) {}
 
   @Post()
+  @RequiresRole(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   create(@Body() createMealDto: CreateMealDto) {
     return this.mealService.create(createMealDto)
   }
 
-  @Get()
   findAll(
     @Query('page') page: number = 1,
     @Query('date') date: Date,
