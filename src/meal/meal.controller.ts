@@ -13,6 +13,7 @@ import { CreateMealDto } from './dto/create-meal-dto'
 import { UserRole } from 'src/auth/users/types/user-role.enum'
 import { RequiresRole } from '@core/decorators/requires-role.decorator'
 import { RolesGuard } from 'src/auth/guards/role.guard'
+import { Meal, MealShift } from './entities/meal.entity'
 
 @Controller('meal')
 export class MealController {
@@ -27,10 +28,11 @@ export class MealController {
     return this.mealService.create(createMealDto)
   }
 
+  @Get()
   findAll(
     @Query('page') page: number = 1,
     @Query('date') date: Date,
-    @Query('shift') shift: string,
+    @Query('shift') shift: MealShift = MealShift.LUNCH,
   ) {
     return this.mealService.findAll({ page, limit: 10 }, date, shift)
   }

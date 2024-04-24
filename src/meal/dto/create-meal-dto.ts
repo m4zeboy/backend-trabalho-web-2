@@ -1,5 +1,4 @@
 import {
-  IsString,
   IsInt,
   IsNotEmpty,
   MinLength,
@@ -8,9 +7,11 @@ import {
   IsDateString,
   ValidateNested,
   IsArray,
+  IsEnum,
 } from 'class-validator'
 import { Food } from '../foods/entities/food.entity'
 import { Type } from 'class-transformer'
+import { MealShift } from '../entities/meal.entity'
 
 export class CreateMealDto {
   // Não é necessário colocar o meal_id pois é gerado automaticamente
@@ -19,10 +20,10 @@ export class CreateMealDto {
   @IsNotEmpty()
   public meal_date: Date
 
-  @IsString()
+  @IsEnum(MealShift)
   @IsNotEmpty()
   @MinLength(3)
-  public shift: string
+  public shift: MealShift
 
   @IsNotEmpty()
   @Min(1)
