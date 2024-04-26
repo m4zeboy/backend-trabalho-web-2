@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { CreateMealDto } from './dto/create-meal-dto'
 import { UpdateMealDto } from './dto/update-meal-dto'
-import { Meal } from './entities/meal.entity'
+import { Meal, MealShift } from './entities/meal.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindOptionsWhere, ILike, Repository } from 'typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
@@ -15,7 +15,7 @@ export class MealService {
     return this.repository.save(meal)
   }
 
-  async findAll(options: IPaginationOptions, date?: Date, shift?: string) {
+  async findAll(options: IPaginationOptions, date?: Date, shift?: MealShift) {
     const where: FindOptionsWhere<Meal> = {}
     // Da pra pesquisar por data ou turno, ou os dois juntos.
     if (date) {
