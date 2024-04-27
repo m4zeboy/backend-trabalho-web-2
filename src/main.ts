@@ -14,6 +14,8 @@ async function bootstrap() {
       },
     }),
   )
+
+  app.useLogger(false)
   await app.listen(3000)
 }
 bootstrap()
