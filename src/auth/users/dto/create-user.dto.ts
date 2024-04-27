@@ -13,8 +13,8 @@ export class CreateUserDto {
   public name: string
 
   @IsString()
-  @Length(11)
-  public cpf: string
+  @Length(11, 11, { message: 'CPF must have exactly 11 characters' })
+  public cpf: string;
 
   @IsString()
   @IsEmail()
