@@ -6,7 +6,9 @@ export class Order extends BaseEntity {
   @Column()
   public requester: string
 
-  @Column()
+  @Column({
+    type: 'date', default: () => 'CURRENT_DATE'
+  })
   public requested_at: Date
 
   @Column()
