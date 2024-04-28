@@ -27,19 +27,36 @@ export class MealService {
     return paginate<Meal>(this.repository, options, { where })
   }
 
+
   findOne(id: number) {
     return this.repository.findOneBy({
       id
     })
   }
 
-  update(id: number) {
-    // Não é necessário especificar o id pois ele ja puxa do meal
-    return `This action updates a #${id} meal`
-  }
 
-  remove(id: number) {
-    // Não é necessário especificar o id pois ele ja puxa do meal
-    return `This action removes a #${id} meal`
+  findOneByShiftAndDate({shift, meal_date} : {shift: MealShift, meal_date: Date}) {
+    return this.repository.findOne({
+      where: {
+        shift,
+        meal_date,
+      },
+    });
+
+
   }
+  // findOne(id: number) {
+  //   // Não é necessário especificar o id pois ele ja puxa do meal
+  //   return `This action returns a #${id} meal`
+  // }
+
+  // update(id: number) {
+  //   // Não é necessário especificar o id pois ele ja puxa do meal
+  //   return `This action updates a #${id} meal`
+  // }
+
+  // remove(id: number) {
+  //   // Não é necessário especificar o id pois ele ja puxa do meal
+  //   return `This action removes a #${id} meal`
+  // }
 }
