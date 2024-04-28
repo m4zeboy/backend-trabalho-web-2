@@ -17,8 +17,6 @@ export class Order extends BaseEntity {
   @JoinTable()
   public requester: User
 
-  // Retirado a coluna requested_at pois ja tem o created_at que é herdado da classe base
-
   @Column({
     enum: ["NEW", "PENDING", "APPROVED", "REJECTED"],
     default: OrderState.NEW // Valor padrão é NEW que vai ser definido ao criar, não precisa ser mencionado no DTO de criação

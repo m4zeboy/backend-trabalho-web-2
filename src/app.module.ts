@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { OrdersModule } from './orders/orders.module'
 import { FoodsModule } from './meal/foods/foods.module'
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { FoodsModule } from './meal/foods/foods.module'
     AuthModule,
     // PedidosModule,
     OrdersModule,
+    FeedbackModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
