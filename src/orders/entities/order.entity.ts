@@ -1,24 +1,37 @@
 import { BaseEntity } from '@core/entities'
-import { Column, Entity } from 'typeorm'
+import { User } from 'src/auth/users/entities/user.entity'
+import { Meal } from 'src/meal/entities/meal.entity'
+import { Column, Entity, JoinTable, ManyToOne } from 'typeorm'
+
+// Possíveis estados para o campo state
+export enum OrderState {
+  NEW = "NEW",
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED"
+}
 
 @Entity()
 export class Order extends BaseEntity {
-  @Column()
-  public requester: string
+  @ManyToOne(() => User, (user) => user.orders, { eager: true })
+  @JoinTable()
+  public requester: User
 
-  @Column()
-  public requested_at: Date
-
-  @Column()
-  public state: string
+  // Retirado a coluna requested_at pois ja tem o created_at que é herdado da classe base
 
   @Column({
-    type: 'int',
+    enum: ["NEW", "PENDING", "APPROVED", "REJECTED"],
+    default: OrderState.NEW // Valor padrão é NEW que vai ser definido ao criar, não precisa ser mencionado no DTO de criação
   })
-  public meal_id: number
+  public state: OrderState 
+
+  @ManyToOne(()=> Meal, (meal) => meal.orders, { eager: true })
+  @JoinTable()
+  public meal: Meal
 
   @Column({
     type: 'decimal',
+    default: 0
   })
-  public total_price: number
+  public discount: number
 }

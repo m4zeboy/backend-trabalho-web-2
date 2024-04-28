@@ -28,8 +28,9 @@ export class MealService {
   }
 
   findOne(id: number) {
-    // Não é necessário especificar o id pois ele ja puxa do meal
-    return `This action returns a #${id} meal`
+    return this.repository.findOneBy({
+      id
+    })
   }
 
   update(id: number) {
