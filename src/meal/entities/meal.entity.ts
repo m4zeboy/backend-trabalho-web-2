@@ -1,6 +1,7 @@
 import { BaseEntity } from '@core/entities'
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm'
 import { Food } from '../foods/entities/food.entity'
+import { Order } from 'src/orders/entities/order.entity'
 
 
 export enum MealShift {
@@ -34,4 +35,7 @@ export class Meal extends BaseEntity {
   @ManyToMany(() => Food, (food) => food.meals, { eager: true })
   @JoinTable()
   foods: Food[]
+
+  @OneToMany(() => Order, (order) => order.meal)
+  public orders: Order[]
 }
