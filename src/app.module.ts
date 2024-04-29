@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { OrdersModule } from './orders/orders.module'
 import { FoodsModule } from './meal/foods/foods.module'
 import { FeedbackModule } from './feedback/feedback.module';
+import { PaymentccModule } from './paymentcc/paymentcc.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     // PedidosModule,
     OrdersModule,
     FeedbackModule,
+    PaymentccModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
