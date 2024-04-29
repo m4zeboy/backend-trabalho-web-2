@@ -41,8 +41,8 @@ export class MealController {
   @Get()
   findAll(
     @Query('page') page: number = 1,
-    @Query('date') date: Date,
-    @Query('shift') shift: MealShift = MealShift.LUNCH,
+    @Query('date') date?: Date,
+    @Query('shift') shift?: MealShift,
   ) {
     return this.mealService.findAll({ page, limit: 10 }, date, shift)
   }
