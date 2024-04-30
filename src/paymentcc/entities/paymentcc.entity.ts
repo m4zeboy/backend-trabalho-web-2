@@ -1,8 +1,8 @@
-import { BaseEntity } from "typeorm";
+import { BaseEntity } from "@core/entities";
 import { Column, Entity } from "typeorm";
 
 @Entity()
-export class PaymentCC extends BaseEntity{
+export class PaymentCC extends BaseEntity {
     @Column()
     payment_id: number
 

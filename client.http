@@ -1,0 +1,92 @@
+@baseUrl = http://localhost:3000
+@authToken = {{authenticate.response.body.access_token}}
+
+# @name create_account
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Moisés Silva de Azevedo",
+  "cpf": "96049077002",
+  "email": "moises3@email.com",
+  "password": "Pa$$word",
+  "role": "ADMIN"  
+}
+
+### 
+# @name authenticate
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "moises3@email.com",
+  "password": "Pa$$word"  
+}
+
+###
+
+# @name create_food
+POST {{baseUrl}}/foods
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Frango ao Molho Mostarda",
+  "portion": 117,
+  "calories": 204
+}
+
+###
+
+# @name list_foods
+GET {{baseUrl}}/foods
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name create_meal
+POST {{baseUrl}}/meal
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "meal_date": "2024-04-29",
+  "shift": "DINNER",
+  "price": 14.49,
+  "availability": 300,
+  "foods": [
+    {
+      "id": 1,
+      "createdAt": "2024-04-29T17:02:18.000Z",
+      "updatedAt": "2024-04-29T17:02:18.000Z",
+      "name": "Arroz Branco",
+      "portion": 110,
+      "calories": 140
+    },
+    {
+      "id": 3,
+      "createdAt": "2024-04-29T17:03:02.000Z",
+      "updatedAt": "2024-04-29T17:03:02.000Z",
+      "name": "Feijão Carioca",
+      "portion": 80,
+      "calories": 120
+    },
+    {
+      "id": 4,
+      "createdAt": "2024-04-29T17:03:18.000Z",
+      "updatedAt": "2024-04-29T17:03:18.000Z",
+      "name": "Carne de Panela",
+      "portion": 90,
+      "calories": 245
+    }
+  ]
+}
+
+###
+
+# @name get_meals_of_the_day
+GET {{baseUrl}}/meal?date=2024-04-29
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
