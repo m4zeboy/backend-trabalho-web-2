@@ -1,31 +1,37 @@
+import { CurrentUser } from '@core/decorators'
+import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common'
-import { OrdersService } from './orders.service'
-import { CreateOrderRequestBody } from './dto/create-order-request-body'
-import { CurrentUser } from '@core/decorators'
 import { User } from 'src/auth/users/entities/user.entity'
 import { MealService } from 'src/meal/meal.service'
-import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
+import { CreateOrderRequestBody } from './dto/create-order-request-body'
+import { UpdateOrderDto } from './dto/update-order-dto'
+import { OrdersService } from './orders.service'
 
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService, private readonly mealsService: MealService) {}
+  constructor(
+    private readonly ordersService: OrdersService,
+    private readonly mealsService: MealService,
+  ) {}
 
   @Post()
-  async create(@Body() body: CreateOrderRequestBody, @CurrentUser() requester: User) {
+  async create(
+    @Body() body: CreateOrderRequestBody,
+    @CurrentUser() requester: User,
+  ) {
     const doesMealExists = await this.mealsService.findOne(body.meal.id)
-    if(!doesMealExists) {
+    if (!doesMealExists) {
       throw new RecordNotFoundException()
     }
-    const dto = { ...body, requester}
+    const dto = { ...body, requester }
     return this.ordersService.create(dto)
   }
 
@@ -37,18 +43,16 @@ export class OrdersController {
     return this.ordersService.findAll({ page, limit: 10 }, requester)
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.ordersService.findOne(+id)
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() UpdateOrderDto: UpdateOrderDto) {
-  //   return this.ordersService.update(+id, UpdateOrderDto)
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.ordersService.remove(+id)
-  // }
+  @Patch(':id/payment')
+  async setPaymentMethod(
+    @Param('id') id: number,
+    @Body() body: UpdateOrderDto,
+  ) {
+    const doesOrderExists = await this.ordersService.findOne(id)
+    if (!doesOrderExists) {
+      throw new RecordNotFoundException()
+    }
+    await this.ordersService.update(id, { payment_method: body.payment_method })
+    return doesOrderExists
+  }
 }

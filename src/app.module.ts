@@ -9,8 +9,8 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { OrdersModule } from './orders/orders.module'
 import { FoodsModule } from './meal/foods/foods.module'
-import { FeedbackModule } from './feedback/feedback.module';
-import { PaymentccModule } from './paymentcc/paymentcc.module';
+import { FeedbackModule } from './feedback/feedback.module'
+import { PaymentModule } from './payment/payment.module'
 
 @Module({
   imports: [
@@ -28,10 +28,9 @@ import { PaymentccModule } from './paymentcc/paymentcc.module';
     FoodsModule,
     MealModule,
     AuthModule,
-    // PedidosModule,
     OrdersModule,
     FeedbackModule,
-    PaymentccModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],

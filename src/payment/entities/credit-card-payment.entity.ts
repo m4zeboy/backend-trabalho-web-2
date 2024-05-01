@@ -1,11 +1,8 @@
-import { BaseEntity } from '@core/entities'
-import { Column, Entity } from 'typeorm'
+import { ChildEntity, Column } from 'typeorm'
+import { OrderPayment } from './order-payment.entity'
 
-@Entity()
-export class PaymentCC extends BaseEntity {
-  @Column()
-  payment_id: number
-
+@ChildEntity()
+export class CreditCardPayment extends OrderPayment {
   @Column()
   card_number?: string
 

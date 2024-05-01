@@ -12,9 +12,8 @@ import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { IsPublic } from '@core/decorators'
 // import { UpdateUserDto } from './dto/update-user.dto'
-import { BadRequestException } from '@nestjs/common';
-import { cpf } from 'cpf-cnpj-validator'; // Import as cpfValidator to avoid confusion
-
+import { BadRequestException } from '@nestjs/common'
+import { cpf } from 'cpf-cnpj-validator' // Import as cpfValidator to avoid confusion
 
 @Controller('users')
 export class UsersController {
@@ -23,10 +22,9 @@ export class UsersController {
   @IsPublic()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-
-    const isValidCPF = cpf.isValid(createUserDto.cpf);
+    const isValidCPF = cpf.isValid(createUserDto.cpf)
     if (!isValidCPF) {
-      throw new BadRequestException('Invalid CPF');
+      throw new BadRequestException('Invalid CPF')
     }
 
     return this.usersService.create(createUserDto)
@@ -51,5 +49,4 @@ export class UsersController {
   // remove(@Param('id') id: string) {
   //   return this.usersService.remove(+id)
   // }
- 
 }

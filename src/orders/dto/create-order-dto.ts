@@ -1,9 +1,5 @@
 import { Type } from 'class-transformer'
-import {
-  IsNotEmpty,
-  IsNumber,
-  ValidateNested,
-} from 'class-validator'
+import { IsNotEmpty, IsNumber, ValidateNested } from 'class-validator'
 import { User } from 'src/auth/users/entities/user.entity'
 import { Meal } from 'src/meal/entities/meal.entity'
 
