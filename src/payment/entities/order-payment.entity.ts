@@ -9,12 +9,14 @@ import {
   Unique,
 } from 'typeorm'
 
+/* Possíveis estados de um pagamento, o valor padrão é PENDING */
 export enum OrderPaymentState {
   PENDING = 'PENDING',
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
 
+/* Classe pai de pagamentos */
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export abstract class OrderPayment extends BaseEntity {

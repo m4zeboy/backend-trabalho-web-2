@@ -7,6 +7,7 @@ import { PixPayment } from './entities/pix-payment.entity'
 import { PaymentController } from './payment.controller'
 import { PaymentService } from './payment.service'
 
+/* Módulo único de pagamentos, vai gerenciar tanto pagamento com cartão de crédito assim como pix */
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderPayment, CreditCardPayment, PixPayment]),

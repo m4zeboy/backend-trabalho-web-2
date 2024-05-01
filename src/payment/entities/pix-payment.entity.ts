@@ -1,7 +1,8 @@
 import { ChildEntity, Column } from 'typeorm'
 import { OrderPayment } from './order-payment.entity'
 
-@ChildEntity('PIX')
+/* Subclasse de pagamento de pix */
+@ChildEntity()
 export class PixPayment extends OrderPayment {
   @Column({
     type: 'uuid',

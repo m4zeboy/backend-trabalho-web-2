@@ -22,8 +22,11 @@ export class PaymentController {
     private readonly orderService: OrdersService,
   ) {}
 
-  @Post('credit-card')
+  @Post(
+    'credit-card',
+  ) /* Define qual cartão de crédito será usado no pagamento desse pedido */
   async create(@Body() createCreditCardPaymentDto: CreateCreditCardPaymentDto) {
+    /* Verifica se já existe um pagamento criado para esse pedido, se sim retorna uma exceção de conflito */
     const doesAlreadyExistsAPaymentForThisOrder =
       await this.paymentService.findOneByOrderId(
         createCreditCardPaymentDto.order.id,
@@ -35,10 +38,12 @@ export class PaymentController {
       )
     }
 
+    /* Cria o registro do pagamento com as informações do cartão de crédito */
     const payment = await this.paymentService.createCreditCard(
       createCreditCardPaymentDto,
     )
 
+    /* Atualiza o estado do pedido para PENDING (pagamento pendente) */
     await this.orderService.update(createCreditCardPaymentDto.order.id, {
       state: OrderState.PENDING,
     })
@@ -46,13 +51,15 @@ export class PaymentController {
     return payment
   }
 
-  @Patch(':id/process')
+  @Patch(':id/process') // Processar o pagamento
   async process(@Param('id') id: number) {
+    /* Verficar se o pagamento existe, se não exister retorna uma exceção */
     const doesPaymentExists = await this.paymentService.findOneById(id)
     if (!doesPaymentExists) {
       throw new RecordNotFoundException()
     }
 
+    /* Verfica se o pagamento está pendente, se não estiver retorna uma exceção, não deve ser posível processar um pagamento mais de uma vez */
     if (doesPaymentExists.state !== OrderPaymentState.PENDING) {
       throw new HttpException(
         'The payment was already approved or rejected.',
@@ -60,6 +67,7 @@ export class PaymentController {
       )
     }
 
+    /* Gera um valor booleano aleatório e atualiza o estado do pagamento e do pedido de acordo com esse boolean */
     const APPROVED = randomBoolean()
     const { order } = doesPaymentExists
     if (APPROVED) {

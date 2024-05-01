@@ -11,12 +11,13 @@ import {
 @Injectable()
 export class PaymentService {
   constructor(
-    @InjectRepository(CreditCardPayment)
-    private crediCardPaymentRepository: Repository<CreditCardPayment>,
     @InjectRepository(OrderPayment)
-    private orderPaymentRepository: Repository<OrderPayment>,
+    private orderPaymentRepository: Repository<OrderPayment> /* Repositório da super classe */,
+    @InjectRepository(CreditCardPayment)
+    private crediCardPaymentRepository: Repository<CreditCardPayment> /* Repositório da sub class de cartão de crédito */,
   ) {}
 
+  /* Cria um pagamento com cartão de crédito */
   async createCreditCard(
     createCreditCardPaymentDto: CreateCreditCardPaymentDto,
   ) {
@@ -28,6 +29,7 @@ export class PaymentService {
     return created
   }
 
+  /* Busca se já existe um pagamento genérico vinculado a um pedido */
   async findOneByOrderId(orderId: number) {
     return await this.orderPaymentRepository.findOneBy({
       order: {
@@ -36,18 +38,21 @@ export class PaymentService {
     })
   }
 
+  /* Busca por um pagamento genérico pelo id */
   async findOneById(id: number) {
     return await this.orderPaymentRepository.findOneBy({
       id,
     })
   }
 
+  /* Aprova um pagamento */
   approve(id: number) {
     return this.orderPaymentRepository.update(id, {
       state: OrderPaymentState.APPROVED,
     })
   }
 
+  /* Rejeita um pagamento */
   reject(id: number) {
     return this.orderPaymentRepository.update(id, {
       state: OrderPaymentState.REJECTED,

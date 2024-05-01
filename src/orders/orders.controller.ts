@@ -43,15 +43,18 @@ export class OrdersController {
     return this.ordersService.findAll({ page, limit: 10 }, requester)
   }
 
+  /* Serve para definir qual método de pagamento vai ser usado */
   @Patch(':id/payment')
   async setPaymentMethod(
     @Param('id') id: number,
     @Body() body: UpdateOrderDto,
   ) {
+    /* Verfica se o pedido existe */
     const doesOrderExists = await this.ordersService.findOne(id)
     if (!doesOrderExists) {
       throw new RecordNotFoundException()
     }
+    /* Atualiza o campo método de pagamento com o valor recuperado do body da requisição */
     await this.ordersService.update(id, { payment_method: body.payment_method })
   }
 }
