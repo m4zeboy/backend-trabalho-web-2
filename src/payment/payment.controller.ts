@@ -1,12 +1,18 @@
+import { randomBoolean } from '@core/utils/random-boolean'
+import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import {
   Body,
   Controller,
   HttpException,
   HttpStatus,
+  Param,
+  Patch,
   Post,
 } from '@nestjs/common'
+import { OrderState } from 'src/orders/entities/order.entity'
 import { OrdersService } from 'src/orders/orders.service'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
+import { OrderPaymentState } from './entities/order-payment.entity'
 import { PaymentService } from './payment.service'
 
 @Controller('payment')
@@ -33,9 +39,43 @@ export class PaymentController {
       createCreditCardPaymentDto,
     )
 
+    await this.orderService.update(createCreditCardPaymentDto.order.id, {
+      state: OrderState.PENDING,
+    })
+
     return payment
   }
 
+  @Patch(':id/process')
+  async process(@Param('id') id: number) {
+    const doesPaymentExists = await this.paymentService.findOneById(id)
+    if (!doesPaymentExists) {
+      throw new RecordNotFoundException()
+    }
+
+    if (doesPaymentExists.state !== OrderPaymentState.PENDING) {
+      throw new HttpException(
+        'The payment was already approved or rejected.',
+        HttpStatus.CONFLICT,
+      )
+    }
+
+    const APPROVED = randomBoolean()
+    const { order } = doesPaymentExists
+    if (APPROVED) {
+      await this.paymentService.approve(id)
+      await this.orderService.update(order.id, {
+        state: OrderState.APPROVED,
+      })
+      return { message: 'Approved' }
+    } else {
+      await this.paymentService.reject(id)
+      await this.orderService.update(order.id, {
+        state: OrderState.REJECTED,
+      })
+      return { message: 'Rejected' }
+    }
+  }
   // @Get()
   // findAll(
   //     @Query('page') page: number = 1,

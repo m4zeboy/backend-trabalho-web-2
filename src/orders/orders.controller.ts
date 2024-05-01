@@ -53,6 +53,5 @@ export class OrdersController {
       throw new RecordNotFoundException()
     }
     await this.ordersService.update(id, { payment_method: body.payment_method })
-    return doesOrderExists
   }
 }

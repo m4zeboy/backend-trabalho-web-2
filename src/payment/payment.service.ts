@@ -3,7 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
 import { CreditCardPayment } from './entities/credit-card-payment.entity'
-import { OrderPayment } from './entities/order-payment.entity'
+import {
+  OrderPayment,
+  OrderPaymentState,
+} from './entities/order-payment.entity'
 
 @Injectable()
 export class PaymentService {
@@ -30,6 +33,24 @@ export class PaymentService {
       order: {
         id: orderId,
       },
+    })
+  }
+
+  async findOneById(id: number) {
+    return await this.orderPaymentRepository.findOneBy({
+      id,
+    })
+  }
+
+  approve(id: number) {
+    return this.orderPaymentRepository.update(id, {
+      state: OrderPaymentState.APPROVED,
+    })
+  }
+
+  reject(id: number) {
+    return this.orderPaymentRepository.update(id, {
+      state: OrderPaymentState.REJECTED,
     })
   }
 }
