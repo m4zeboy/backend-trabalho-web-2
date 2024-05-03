@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { CreateOrderDto } from './dto/create-order-dto'
-import { Order } from './entities/order.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindOptionsWhere, ILike, Repository } from 'typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
+import { FindOptionsWhere, ILike, Repository } from 'typeorm'
+import { CreateOrderDto } from './dto/create-order-dto'
+import { UpdateOrderDto } from './dto/update-order-dto'
+import { Order } from './entities/order.entity'
 
 @Injectable()
 export class OrdersService {
@@ -22,13 +23,15 @@ export class OrdersService {
     return paginate(this.repository, options, { where })
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} order`
-  // }
+  findOne(id: number) {
+    return this.repository.findOneBy({
+      id,
+    })
+  }
 
-  // update(id: number, updateFoodDto: UpdateOrderDto) {
-  //   return `This action updates a #${id} order`
-  // }
+  update(id: number, updateOrderDto: UpdateOrderDto) {
+    return this.repository.update(id, updateOrderDto)
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} order`

@@ -1,23 +1,23 @@
-import { 
-    IsDate,
-    IsNumber,
-    IsNotEmpty,
-    IsString,
-    MinLength,
- } from "class-validator";
+import {
+  IsDate,
+  IsNumber,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+} from 'class-validator'
 
- export class CreateFeedbackDto{
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(3)
-    public content: string
+export class CreateFeedbackDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(3)
+  public content: string
 
-    @IsDate()
-    @IsNotEmpty()
-    public created_at: Date
+  @IsDate()
+  @IsNotEmpty()
+  public created_at: Date
 
-    @IsNumber()
-    @IsNotEmpty()
-    @MinLength(3)
-    public commented_by: number
- }
+  @IsNumber()
+  @IsNotEmpty()
+  @MinLength(3)
+  public commented_by: number
+}

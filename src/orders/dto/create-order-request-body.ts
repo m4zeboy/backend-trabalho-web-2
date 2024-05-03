@@ -1,10 +1,5 @@
 import { Type } from 'class-transformer'
-import {
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  ValidateNested,
-} from 'class-validator'
+import { IsInt, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator'
 import { Meal } from 'src/meal/entities/meal.entity'
 
 export class CreateOrderRequestBody {

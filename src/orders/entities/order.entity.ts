@@ -5,10 +5,16 @@ import { Column, Entity, JoinTable, ManyToOne } from 'typeorm'
 
 // Possíveis estados para o campo state
 export enum OrderState {
-  NEW = "NEW",
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED"
+  NEW = 'NEW',
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export enum PaymentMethods {
+  EMPTY = 'EMPTY',
+  PIX = 'PIX',
+  CREDIT_CARD = 'CREDIT_CARD',
 }
 
 @Entity()
@@ -18,18 +24,24 @@ export class Order extends BaseEntity {
   public requester: User
 
   @Column({
-    enum: ["NEW", "PENDING", "APPROVED", "REJECTED"],
-    default: OrderState.NEW // Valor padrão é NEW que vai ser definido ao criar, não precisa ser mencionado no DTO de criação
+    enum: ['NEW', 'PENDING', 'APPROVED', 'REJECTED'],
+    default: OrderState.NEW, // Valor padrão é NEW que vai ser definido ao criar, não precisa ser mencionado no DTO de criação
   })
-  public state: OrderState 
+  public state: OrderState
 
-  @ManyToOne(()=> Meal, (meal) => meal.orders, { eager: true })
+  @ManyToOne(() => Meal, (meal) => meal.orders, { eager: true })
   @JoinTable()
   public meal: Meal
 
   @Column({
     type: 'decimal',
-    default: 0
+    default: 0,
   })
   public discount: number
+
+  @Column({
+    enum: ['EMPTY', 'PIX', 'CREDIT_CARD'],
+    default: PaymentMethods.EMPTY,
+  })
+  public payment_method: PaymentMethods
 }

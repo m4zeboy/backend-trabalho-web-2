@@ -27,12 +27,13 @@ export class MealController {
   @UseGuards(RolesGuard)
   async create(@Body() createMealDto: CreateMealDto) {
     // buscar se existe uma refeição nesse turno e nessa data
-    const { meal_date, shift } = createMealDto 
-    const IsThereAlreadyAMealWithSameShiftAndDate = await this.mealService.findOneByShiftAndDate({
-      shift,
-      meal_date
-    })
-    if(IsThereAlreadyAMealWithSameShiftAndDate) {
+    const { meal_date, shift } = createMealDto
+    const IsThereAlreadyAMealWithSameShiftAndDate =
+      await this.mealService.findOneByShiftAndDate({
+        shift,
+        meal_date,
+      })
+    if (IsThereAlreadyAMealWithSameShiftAndDate) {
       throw new MealAlreadyExistsException()
     }
     return this.mealService.create(createMealDto)

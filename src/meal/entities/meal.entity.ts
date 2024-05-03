@@ -3,10 +3,9 @@ import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm'
 import { Food } from '../foods/entities/food.entity'
 import { Order } from 'src/orders/entities/order.entity'
 
-
 export enum MealShift {
-  LUNCH = "LUNCH",
-  DINNER = "DINNER"
+  LUNCH = 'LUNCH',
+  DINNER = 'DINNER',
 }
 
 @Entity()
@@ -16,7 +15,7 @@ export class Meal extends BaseEntity {
 
   @Column({
     enum: ['LUNCH', 'DINNER'],
-    default: 'LUNCH'
+    default: 'LUNCH',
   }) // Não é necessário colocar o type para string, o typeORM usa string como padrão.
   public shift: MealShift
 
