@@ -38,4 +38,5 @@ export class VoucherService {
   remove(id: number) {
     return `This action removes a #${id} voucher`
   }
-}
+
+  }

@@ -14,12 +14,14 @@ import { OrdersService } from 'src/orders/orders.service'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
 import { OrderPaymentState } from './entities/order-payment.entity'
 import { PaymentService } from './payment.service'
+import { MealService } from 'src/meal/meal.service'
 
 @Controller('payment')
 export class PaymentController {
   constructor(
     private readonly paymentService: PaymentService,
     private readonly orderService: OrdersService,
+    private readonly mealService: MealService
   ) {}
 
   @Post(
@@ -72,6 +74,9 @@ export class PaymentController {
     const { order } = doesPaymentExists
     if (APPROVED) {
       await this.paymentService.approve(id)
+
+      //await this.mealService.decrementDisponibility(order.meal_id); //acho que ta faltando o relacionamento
+
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,
       })
