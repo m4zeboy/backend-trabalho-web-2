@@ -35,7 +35,9 @@ export class MealService {
   }
 
   async decrementDisponibility(mealId: number): Promise<void> {
-    const meal = await this.repository.findOne({ where: { id: mealId } }); 
+    const meal = await this.repository.findOneBy( { 
+      id: mealId
+      }  ); 
   
     if (!meal) {
       throw new MealNotFoundException;
