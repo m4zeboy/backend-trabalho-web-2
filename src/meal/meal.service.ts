@@ -5,6 +5,7 @@ import { Meal, MealShift } from './entities/meal.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindOptionsWhere, ILike, Repository } from 'typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
+import { MealNotFoundException } from '@exceptions/meal-not-found'
 
 @Injectable()
 export class MealService {
@@ -33,6 +34,21 @@ export class MealService {
     })
   }
 
+  async decrementDisponibility(mealId: number): Promise<void> {
+    const meal = await this.repository.findOne({ where: { id: mealId } }); 
+  
+    if (!meal) {
+      throw new MealNotFoundException;
+    }
+  
+    if (meal.availability > 0) {
+      meal.availability--;
+      await this.repository.update(meal, { availability: meal.availability });
+    } else {
+      throw new Error('Meal vouchers sold out');
+    }
+  }
+  
   findOneByShiftAndDate({
     shift,
     meal_date,
