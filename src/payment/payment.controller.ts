@@ -75,7 +75,7 @@ export class PaymentController {
     if (APPROVED) {
       await this.paymentService.approve(id)
 
-      //await this.mealService.decrementDisponibility(order.meal_id); //acho que ta faltando o relacionamento
+      await this.mealService.decrementDisponibility(order.meal.id); // acessamos o ID a partir do meal pois já há um ID atrelado ao meal, entao somente acessar ele.
 
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,

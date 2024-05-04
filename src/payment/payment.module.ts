@@ -6,12 +6,13 @@ import { OrderPayment } from './entities/order-payment.entity'
 import { PixPayment } from './entities/pix-payment.entity'
 import { PaymentController } from './payment.controller'
 import { PaymentService } from './payment.service'
+import { MealModule } from 'src/meal/meal.module'
 
 /* Módulo único de pagamentos, vai gerenciar tanto pagamento com cartão de crédito assim como pix */
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderPayment, CreditCardPayment, PixPayment]),
-    OrdersModule,
+    OrdersModule, MealModule,
   ],
   providers: [PaymentService],
   controllers: [PaymentController],
