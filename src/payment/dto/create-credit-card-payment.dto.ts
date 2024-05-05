@@ -16,8 +16,9 @@ export class CreateCreditCardPaymentDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsCreditCard() // O algoritmo de Luhn ou fórmula de Luhn, também conhecido como algoritmo "módulo 10" ou "mod 10", em homenagem ao seu criador, 
-  //o cientista da IBM Hans Peter Luhn, é uma fórmula de dígito de verificação simples usada para validar uma variedade de números de identificação.
+  @IsCreditCard() // O algoritmo de Luhn ou fórmula de Luhn, também conhecido como algoritmo "módulo 10" ou "mod 10", em homenagem ao seu criador,
+  // o cientista da IBM Hans Peter Luhn, é uma fórmula de dígito de verificação simples usada para validar uma variedade de números de identificação.
+  public card_number: string
 
   @IsDateString()
   @IsNotEmpty()
@@ -25,7 +26,7 @@ export class CreateCreditCardPaymentDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @IsCreditCard()
+  // @IsCreditCard()
   public security_code: number
 
   @IsString()

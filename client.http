@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
 
 # @name create_account
@@ -51,8 +51,8 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-04-29",
-  "shift": "DINNER",
+  "meal_date": "2024-05-04",
+  "shift": "LUNCH",
   "price": 14.49,
   "availability": 300,
   "foods": [
@@ -86,7 +86,57 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_meals_of_the_day
-GET {{baseUrl}}/meal?date=2024-04-29
+GET {{baseUrl}}/meal?date=2024-05-04
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name order
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "meal":  {
+    "id": 4
+  },
+  "discount": 11.49
+}
+
+###
+
+# @name set_payment_method_credit_card
+PATCH {{baseUrl}}/orders/4/payment
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "payment_method": "CREDIT_CARD"
+}
+
+###
+
+# @name set_credit_card
+POST {{baseUrl}}/payment/credit-card
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "order": {
+    "id": 4
+  },
+  "card_number": "4958754160219305",
+  "expiration_date": "2026-05-12",
+  "security_code": 448,
+  "account_holder": "MOISES S AZEVEDO"
+}
+
+###
+
+# @name process_payment
+PATCH {{baseUrl}}/payment/4/process
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
 

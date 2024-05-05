@@ -9,19 +9,19 @@ import {
   Patch,
   Post,
 } from '@nestjs/common'
+import { MealService } from 'src/meal/meal.service'
 import { OrderState } from 'src/orders/entities/order.entity'
 import { OrdersService } from 'src/orders/orders.service'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
 import { OrderPaymentState } from './entities/order-payment.entity'
 import { PaymentService } from './payment.service'
-import { MealService } from 'src/meal/meal.service'
 
 @Controller('payment')
 export class PaymentController {
   constructor(
     private readonly paymentService: PaymentService,
     private readonly orderService: OrdersService,
-    private readonly mealService: MealService
+    private readonly mealService: MealService,
   ) {}
 
   @Post(
@@ -75,7 +75,7 @@ export class PaymentController {
     if (APPROVED) {
       await this.paymentService.approve(id)
 
-      await this.mealService.decrementDisponibility(order.meal.id); // acessamos o ID a partir do meal pois já há um ID atrelado ao meal, entao somente acessar ele.
+      await this.mealService.decrementDisponibility(order.meal.id) // acessamos o ID a partir do meal pois já há um ID atrelado ao meal, entao somente acessar ele.
 
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,

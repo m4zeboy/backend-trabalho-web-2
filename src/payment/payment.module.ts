@@ -12,7 +12,8 @@ import { MealModule } from 'src/meal/meal.module'
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderPayment, CreditCardPayment, PixPayment]),
-    OrdersModule, MealModule,
+    OrdersModule,
+    MealModule,
   ],
   providers: [PaymentService],
   controllers: [PaymentController],
