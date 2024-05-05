@@ -1,5 +1,7 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
+@order_id = {{order.response.body.id}}
+@payment_id = {{set_credit_card.response.body.id}}
 
 # @name create_account
 POST {{baseUrl}}/users
@@ -107,7 +109,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name set_payment_method_credit_card
-PATCH {{baseUrl}}/orders/4/payment
+PATCH {{baseUrl}}/orders/{{order_id}}/payment
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -124,7 +126,7 @@ Authorization: Bearer {{authToken}}
 
 {
   "order": {
-    "id": 4
+    "id": {{order_id}}
   },
   "card_number": "4958754160219305",
   "expiration_date": "2026-05-12",
@@ -135,7 +137,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name process_payment
-PATCH {{baseUrl}}/payment/4/process
+PATCH {{baseUrl}}/payment/{{payment_id}}/process
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

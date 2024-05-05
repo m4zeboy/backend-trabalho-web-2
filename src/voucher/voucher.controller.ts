@@ -1,39 +1,36 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Query,
 } from '@nestjs/common'
-import { VoucherService } from './voucher.service'
-import { Voucher } from './entities/voucher.entity'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
+import { VoucherService } from './voucher.service'
 
 @Controller('voucher')
 export class VoucherController {
-  constructor(private readonly VoucherService: VoucherService) {}
+  constructor(private readonly voucherService: VoucherService) {}
 
   @Post()
-  create(@Body() CreateVoucherDto: CreateVoucherDto) {
-    return this.VoucherService.create(CreateVoucherDto)
+  create(@Body() createVoucherDto: CreateVoucherDto) {
+    return this.voucherService.create(createVoucherDto)
   }
 
   // estou com duvida
-  /* @Get()
-    findAll (
-    @Query('page') page: number = 1, 
-    @Query('id') voucher_id: number,
+  @Get()
+  findAll(
+    @Query('page') page: number = 1,
     @Query('order_id') order_id: number,
-    ) {
-        return this.VoucherService.findAll({ page, limit: 10}, voucher_id, order_id)
-    } */
+  ) {
+    return this.voucherService.findAll({ page, limit: 10 }, order_id)
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.VoucherService.findOne(+id)
+    return this.voucherService.findOne(+id)
   }
 
   // estou com duvida
@@ -42,6 +39,6 @@ export class VoucherController {
 
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return this.VoucherService.remove(+id)
+    return this.voucherService.remove(+id)
   }
 }

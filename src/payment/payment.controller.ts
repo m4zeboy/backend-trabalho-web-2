@@ -1,4 +1,3 @@
-import { randomBoolean } from '@core/utils/random-boolean'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import {
   Body,
@@ -12,6 +11,7 @@ import {
 import { MealService } from 'src/meal/meal.service'
 import { OrderState } from 'src/orders/entities/order.entity'
 import { OrdersService } from 'src/orders/orders.service'
+import { VoucherService } from 'src/voucher/voucher.service'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
 import { OrderPaymentState } from './entities/order-payment.entity'
 import { PaymentService } from './payment.service'
@@ -22,6 +22,7 @@ export class PaymentController {
     private readonly paymentService: PaymentService,
     private readonly orderService: OrdersService,
     private readonly mealService: MealService,
+    private readonly voucherService: VoucherService,
   ) {}
 
   @Post(
@@ -70,7 +71,8 @@ export class PaymentController {
     }
 
     /* Gera um valor booleano aleatório e atualiza o estado do pagamento e do pedido de acordo com esse boolean */
-    const APPROVED = randomBoolean()
+    // const APPROVED = randomBoolean()
+    const APPROVED = true
     const { order } = doesPaymentExists
     if (APPROVED) {
       await this.paymentService.approve(id)
@@ -80,7 +82,12 @@ export class PaymentController {
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,
       })
-      return { message: 'Approved' }
+
+      const voucher = await this.voucherService.create({
+        order,
+      })
+
+      return { message: 'Approved', voucher }
     } else {
       await this.paymentService.reject(id)
       await this.orderService.update(order.id, {
@@ -89,26 +96,4 @@ export class PaymentController {
       return { message: 'Rejected' }
     }
   }
-  // @Get()
-  // findAll(
-  //     @Query('page') page: number = 1,
-  //     @Query('card_number') card_number: string,
-  // ) {
-  //     return this.PaymentccService.FindAll({page, limit: 10}, card_number)
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.PaymentccService.findOne(+id)
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() UpdateCCDto: UpdateCCDto) {
-  //   return this.PaymentccService.update(+id, UpdateCCDto)
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.PaymentccService.remove(+id)
-  // }
 }
