@@ -1,7 +1,8 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
 @order_id = {{order.response.body.id}}
-@payment_id = {{set_credit_card.response.body.id}}
+@payment_id_by_credit_card = {{set_credit_card.response.body.id}}
+@payment_id_by_pix = {{generate_pix_code.response.body.id}}
 
 # @name create_account
 POST {{baseUrl}}/users
@@ -119,6 +120,17 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name set_payment_method_pix
+PATCH {{baseUrl}}/orders/{{order_id}}/payment
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "payment_method": "PIX"
+}
+
+###
+
 # @name set_credit_card
 POST {{baseUrl}}/payment/credit-card
 Content-Type: application/json
@@ -136,9 +148,28 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-# @name process_payment
-PATCH {{baseUrl}}/payment/{{payment_id}}/process
+# @name generate_pix_code
+POST {{baseUrl}}/payment/pix
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
+{
+  "order": {
+    "id": {{order_id}}
+  }
+}
+
+###
+
+# @name process_payment_by_credit_card
+PATCH {{baseUrl}}/payment/{{{{payment_id_by_credit_card}}}}/process
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name process_payment_by_pix
+PATCH {{baseUrl}}/payment/{{{{{{payment_id_by_pix}}}}}}/process
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 

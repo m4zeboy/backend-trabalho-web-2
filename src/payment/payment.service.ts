@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { randomUUID } from 'crypto'
 import { Repository } from 'typeorm'
 import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
+import { CreatePixPaymentDto } from './dto/create-pix-payment.dto'
 import { CreditCardPayment } from './entities/credit-card-payment.entity'
 import {
   OrderPayment,
   OrderPaymentState,
 } from './entities/order-payment.entity'
+import { PixPayment } from './entities/pix-payment.entity'
 
 @Injectable()
 export class PaymentService {
@@ -14,18 +17,29 @@ export class PaymentService {
     @InjectRepository(OrderPayment)
     private orderPaymentRepository: Repository<OrderPayment> /* Repositório da super classe */,
     @InjectRepository(CreditCardPayment)
-    private crediCardPaymentRepository: Repository<CreditCardPayment> /* Repositório da sub class de cartão de crédito */,
+    private creditCardPaymentRepository: Repository<CreditCardPayment> /* Repositório da sub class de cartão de crédito */,
+    @InjectRepository(PixPayment)
+    private pixPaymentRepository: Repository<PixPayment> /* Repositório da sub class de cartão de crédito */,
   ) {}
 
   /* Cria um pagamento com cartão de crédito */
   async createCreditCard(
     createCreditCardPaymentDto: CreateCreditCardPaymentDto,
   ) {
-    const creditCardPayment = this.crediCardPaymentRepository.create(
+    const creditCardPayment = this.creditCardPaymentRepository.create(
       createCreditCardPaymentDto,
     )
     const created =
-      await this.crediCardPaymentRepository.save(creditCardPayment)
+      await this.creditCardPaymentRepository.save(creditCardPayment)
+    return created
+  }
+
+  async createPixCode(createPixPaymentDto: CreatePixPaymentDto) {
+    const pixPayment = this.pixPaymentRepository.create({
+      pix_code: randomUUID(),
+      order: createPixPaymentDto.order,
+    })
+    const created = await this.pixPaymentRepository.save(pixPayment)
     return created
   }
 
