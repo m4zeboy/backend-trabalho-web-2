@@ -1,58 +1,22 @@
+import { randomBoolean } from '@core/utils/random-boolean'
+import { PaymentAlreadyProcessedException } from '@exceptions/payment-already-processed.exception'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common'
+import { Controller, Param, Patch } from '@nestjs/common'
 import { MealService } from 'src/meal/meal.service'
 import { OrderState } from 'src/orders/entities/order.entity'
 import { OrdersService } from 'src/orders/orders.service'
 import { VoucherService } from 'src/voucher/voucher.service'
-import { CreateCreditCardPaymentDto } from './dto/create-credit-card-payment.dto'
-import { OrderPaymentState } from './entities/order-payment.entity'
-import { PaymentService } from './payment.service'
+import { OrderPaymentState } from '../entities/order-payment.entity'
+import { PaymentService } from '../payment.service'
 
 @Controller('payment')
-export class PaymentController {
+export class ProcessPaymentController {
   constructor(
     private readonly paymentService: PaymentService,
     private readonly orderService: OrdersService,
-    private readonly mealService: MealService,
     private readonly voucherService: VoucherService,
+    private readonly mealService: MealService,
   ) {}
-
-  @Post(
-    'credit-card',
-  ) /* Define qual cartão de crédito será usado no pagamento desse pedido */
-  async create(@Body() createCreditCardPaymentDto: CreateCreditCardPaymentDto) {
-    /* Verifica se já existe um pagamento criado para esse pedido, se sim retorna uma exceção de conflito */
-    const doesAlreadyExistsAPaymentForThisOrder =
-      await this.paymentService.findOneByOrderId(
-        createCreditCardPaymentDto.order.id,
-      )
-    if (doesAlreadyExistsAPaymentForThisOrder) {
-      throw new HttpException(
-        'There is already a payment for this order.',
-        HttpStatus.CONFLICT,
-      )
-    }
-
-    /* Cria o registro do pagamento com as informações do cartão de crédito */
-    const payment = await this.paymentService.createCreditCard(
-      createCreditCardPaymentDto,
-    )
-
-    /* Atualiza o estado do pedido para PENDING (pagamento pendente) */
-    await this.orderService.update(createCreditCardPaymentDto.order.id, {
-      state: OrderState.PENDING,
-    })
-
-    return payment
-  }
 
   @Patch(':id/process') // Processar o pagamento
   async process(@Param('id') id: number) {
@@ -63,16 +27,15 @@ export class PaymentController {
     }
 
     /* Verfica se o pagamento está pendente, se não estiver retorna uma exceção, não deve ser posível processar um pagamento mais de uma vez */
-    if (doesPaymentExists.state !== OrderPaymentState.PENDING) {
-      throw new HttpException(
-        'The payment was already approved or rejected.',
-        HttpStatus.CONFLICT,
-      )
+    const paymentIsNotPending =
+      doesPaymentExists.state !== OrderPaymentState.PENDING
+    console.log(doesPaymentExists)
+    if (paymentIsNotPending) {
+      throw new PaymentAlreadyProcessedException()
     }
 
     /* Gera um valor booleano aleatório e atualiza o estado do pagamento e do pedido de acordo com esse boolean */
-    // const APPROVED = randomBoolean()
-    const APPROVED = true
+    const APPROVED = randomBoolean()
     const { order } = doesPaymentExists
     if (APPROVED) {
       await this.paymentService.approve(id)

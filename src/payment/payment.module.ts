@@ -3,10 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { MealModule } from 'src/meal/meal.module'
 import { OrdersModule } from 'src/orders/orders.module'
 import { VoucherModule } from 'src/voucher/voucher.module'
+import { CreateCreditCardPaymentController } from './controllers/create-credit-card-payment.controller'
+import { CreatePixPaymentController } from './controllers/create-pix-payment.controller'
+import { ProcessPaymentController } from './controllers/process-payment.controller'
 import { CreditCardPayment } from './entities/credit-card-payment.entity'
 import { OrderPayment } from './entities/order-payment.entity'
 import { PixPayment } from './entities/pix-payment.entity'
-import { PaymentController } from './payment.controller'
 import { PaymentService } from './payment.service'
 
 /* Módulo único de pagamentos, vai gerenciar tanto pagamento com cartão de crédito assim como pix */
@@ -18,6 +20,10 @@ import { PaymentService } from './payment.service'
     VoucherModule,
   ],
   providers: [PaymentService],
-  controllers: [PaymentController],
+  controllers: [
+    CreateCreditCardPaymentController,
+    ProcessPaymentController,
+    CreatePixPaymentController,
+  ],
 })
 export class PaymentModule {}
