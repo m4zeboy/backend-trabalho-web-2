@@ -34,9 +34,9 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Frango ao Molho Mostarda",
-  "portion": 117,
-  "calories": 204
+  "name": "Feijão Preto",
+  "portion": 120,
+  "calories": 240
 }
 
 ###
@@ -54,10 +54,10 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-05-04",
+  "meal_date": "2024-05-10",
   "shift": "LUNCH",
   "price": 14.49,
-  "availability": 300,
+  "availability": 10,
   "foods": [
     {
       "id": 1,
@@ -67,21 +67,21 @@ Authorization: Bearer {{authToken}}
       "portion": 110,
       "calories": 140
     },
-    {
-      "id": 3,
-      "createdAt": "2024-04-29T17:03:02.000Z",
-      "updatedAt": "2024-04-29T17:03:02.000Z",
-      "name": "Feijão Carioca",
-      "portion": 80,
-      "calories": 120
+     {
+      "id": 8,
+      "createdAt": "2024-05-10T17:50:03.000Z",
+      "updatedAt": "2024-05-10T17:50:03.000Z",
+      "name": "Feijão Preto",
+      "portion": 120,
+      "calories": 240
     },
-    {
-      "id": 4,
-      "createdAt": "2024-04-29T17:03:18.000Z",
-      "updatedAt": "2024-04-29T17:03:18.000Z",
-      "name": "Carne de Panela",
-      "portion": 90,
-      "calories": 245
+     {
+      "id": 5,
+      "createdAt": "2024-04-29T17:03:38.000Z",
+      "updatedAt": "2024-04-29T17:03:38.000Z",
+      "name": "Bife Grelhado",
+      "portion": 100,
+      "calories": 210
     }
   ]
 }
@@ -89,7 +89,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_meals_of_the_day
-GET {{baseUrl}}/meal?date=2024-05-04
+GET {{baseUrl}}/meal?date=2024-05-10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -102,7 +102,7 @@ Authorization: Bearer {{authToken}}
 
 {
   "meal":  {
-    "id": 4
+    "id": 5
   },
   "discount": 11.49
 }
@@ -162,7 +162,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name process_payment_by_credit_card
-PATCH {{baseUrl}}/payment/{{{{payment_id_by_credit_card}}}}/process
+PATCH {{baseUrl}}/payment/{{payment_id_by_credit_card}}/process
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

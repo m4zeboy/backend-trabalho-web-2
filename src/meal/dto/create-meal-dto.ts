@@ -1,17 +1,17 @@
+import { Type } from 'class-transformer'
 import {
+  IsArray,
+  IsDateString,
+  IsEnum,
   IsInt,
   IsNotEmpty,
-  MinLength,
-  Min,
   IsNumber,
-  IsDateString,
+  Min,
+  MinLength,
   ValidateNested,
-  IsArray,
-  IsEnum,
 } from 'class-validator'
-import { Food } from '../foods/entities/food.entity'
-import { Type } from 'class-transformer'
 import { MealShift } from '../entities/meal.entity'
+import { Food } from '../foods/entities/food.entity'
 
 export class CreateMealDto {
   // Não é necessário colocar o meal_id pois é gerado automaticamente
