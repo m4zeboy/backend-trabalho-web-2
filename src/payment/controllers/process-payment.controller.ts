@@ -9,6 +9,7 @@ import { VoucherService } from 'src/voucher/voucher.service'
 import { OrderPaymentState } from '../entities/order-payment.entity'
 import { PaymentService } from '../payment.service'
 
+
 @Controller('payment')
 export class ProcessPaymentController {
   constructor(
@@ -45,7 +46,7 @@ export class ProcessPaymentController {
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,
       })
-
+      // Criando o voucher 
       const voucher = await this.voucherService.create({
         order,
       })
@@ -57,6 +58,30 @@ export class ProcessPaymentController {
         state: OrderState.REJECTED,
       })
       return { message: 'Rejected' }
+    }
+  }
+
+  async approvePayment(id: number): Promise<{ message: string }> {
+    const APPROVED = randomBoolean();
+    const payment = await this.paymentService.findOneById(id);
+    const order = payment.order;
+
+    if (APPROVED) {
+      await this.paymentService.approve(id);
+
+      await this.mealService.decrementDisponibility(order.meal.id); // ...
+
+      await this.orderService.update(order.id, {
+        state: OrderState.APPROVED,
+      });
+
+      const voucher = await this.voucherService.create({ order });
+
+      await this.voucherService.validateVoucher(voucher.id);
+
+      return { message: 'Approved' };
+    } else {
+  
     }
   }
 }
