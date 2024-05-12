@@ -9,6 +9,7 @@ import { VoucherService } from 'src/voucher/voucher.service'
 import { OrderPaymentState } from '../entities/order-payment.entity'
 import { PaymentService } from '../payment.service'
 
+
 @Controller('payment')
 export class ProcessPaymentController {
   constructor(
@@ -45,7 +46,7 @@ export class ProcessPaymentController {
       await this.orderService.update(order.id, {
         state: OrderState.APPROVED,
       })
-
+      // Criando o voucher 
       const voucher = await this.voucherService.create({
         order,
       })

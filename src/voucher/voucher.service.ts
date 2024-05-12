@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
-import { FindOptionsWhere, Repository } from 'typeorm'
-import { CreateVoucherDto } from './dto/create-voucher.dto'
-import { Voucher } from './entities/voucher.entity'
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { CreateVoucherDto } from './dto/create-voucher.dto';
+import { Voucher } from './entities/voucher.entity';
 
 @Injectable()
 export class VoucherService {
@@ -12,18 +12,36 @@ export class VoucherService {
   ) {}
 
   create(createVoucherDto: CreateVoucherDto) {
-    const voucher = this.repository.create(createVoucherDto)
-    return this.repository.save(voucher)
+    const voucher = this.repository.create(createVoucherDto);
+    return this.repository.save(voucher);
   }
 
   async findAll(options: IPaginationOptions, order_id?: number) {
-    const where: FindOptionsWhere<Voucher> = {}
+    const where: FindOptionsWhere<Voucher> = {};
     if (order_id) {
       where.order = {
         id: order_id,
-      }
-    } // confirmar esse equal depois, não tenho certeza.
-    return paginate(this.repository, options, { where })
+      };
+    }
+    return paginate(this.repository, options, { where });
+  }
+
+  async updateValidatedAt(voucherId: number, validatedAt: Date) {
+    return await this.repository.update(voucherId, { validated_at: validatedAt });
+  }
+  
+  async findOneById(id: number): Promise<Voucher | null> { /* Tem o Null pois ele pode retornar um valor nulo (quando não achar o voucher) */
+    return await this.repository.findOne({ where: { id: id } });  
+  }
+
+  async validateVoucher(voucherId: number) {
+    const voucher = await this.repository.findOneBy({ id: voucherId });
+
+    if (!voucher) {
+      throw new Error('Voucher not found');
+    }
+    return await this.updateValidatedAt(voucher.id, new Date());
+    
   }
 
   findOne(id: number) {

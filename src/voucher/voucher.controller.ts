@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  Patch,
 } from '@nestjs/common'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { VoucherService } from './voucher.service'
@@ -19,7 +20,6 @@ export class VoucherController {
     return this.voucherService.create(createVoucherDto)
   }
 
-  // estou com duvida
   @Get()
   findAll(
     @Query('page') page: number = 1,
@@ -32,10 +32,6 @@ export class VoucherController {
   findOne(@Param('id') id: number) {
     return this.voucherService.findOne(+id)
   }
-
-  // estou com duvida
-  /* @Patch(':id')
-    update(@Param('id') id: number, @Body()) */
 
   @Delete(':id')
   remove(@Param('id') id: number) {
