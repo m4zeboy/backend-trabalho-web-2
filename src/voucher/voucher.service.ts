@@ -26,21 +26,22 @@ export class VoucherService {
     return paginate(this.repository, options, { where });
   }
 
-  async updateValidatedAt(voucherId: number, validatedAt: Date): Promise<void> {
-    await this.repository.update(voucherId, { validated_at: validatedAt });
+  async updateValidatedAt(voucherId: number, validatedAt: Date) {
+    return await this.repository.update(voucherId, { validated_at: validatedAt });
   }
   
-  async findOneById(id: number): Promise<Voucher | null> {
-    return await this.repository.findOne({ where: { id: id } }); 
+  async findOneById(id: number): Promise<Voucher | null> { /* Tem o Null pois ele pode retornar um valor nulo (quando não achar o voucher) */
+    return await this.repository.findOne({ where: { id: id } });  
   }
 
-  async validateVoucher(voucherId: number): Promise<void> {
-    const voucher = await this.repository.findOneById(voucherId);
+  async validateVoucher(voucherId: number) {
+    const voucher = await this.repository.findOneBy({ id: voucherId });
 
     if (!voucher) {
       throw new Error('Voucher not found');
     }
-    await this.updateValidatedAt(voucher.id, new Date());
+    return await this.updateValidatedAt(voucher.id, new Date());
+    
   }
 
   findOne(id: number) {
