@@ -17,4 +17,7 @@ export class Voucher extends BaseEntity {
   @Column()
   expires_in: Date = new Date(Date.now() + 4 * 60 * 60 * 1000)
 
+  @Column({ nullable: true })
+  paymentDate: Date
+
 }

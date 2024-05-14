@@ -30,4 +30,7 @@ export abstract class OrderPayment extends BaseEntity {
     default: OrderPaymentState.PENDING,
   })
   public state: OrderPaymentState
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  public paymentDate: Date;
 }

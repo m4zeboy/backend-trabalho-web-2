@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { ValidateNested } from 'class-validator'
+import { IsDate, IsOptional, ValidateNested } from 'class-validator'
 import { Order } from 'src/orders/entities/order.entity'
 
 // Definindo as regras de validação para os dados de entrada dos vouchers
@@ -12,4 +12,8 @@ export class CreateVoucherDto {
   public order: Order
 
   /* para criar não precisa do validated_at */
+
+  @IsOptional()
+  @IsDate()
+  public paymentDate: Date
 }
