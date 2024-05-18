@@ -49,7 +49,6 @@ export class ProcessPaymentController {
       // Criando o voucher 
       const voucher = await this.voucherService.create({
         order,
-        paymentDate: new Date()
       })
 
       return { message: 'Approved', voucher }

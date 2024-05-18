@@ -16,9 +16,8 @@ export class ValidateVoucherController{
     async validate(@Param('id') id: number){
         const voucher =  await this.voucherService.findOneById(id)
 
-        const paymentDate: Date = voucher.paymentDate;
         const currentDate: Date = new Date(); 
-        const expiresIn = new Date(paymentDate.getTime() + 4 * 60 * 60 * 1000);
+        const expiresIn = voucher.expires_in;
 
         if(!voucher){
             throw new RecordNotFoundException()

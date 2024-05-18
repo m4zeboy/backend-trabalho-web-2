@@ -31,6 +31,6 @@ export abstract class OrderPayment extends BaseEntity {
   })
   public state: OrderPaymentState
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  public paymentDate: Date;
+  @Column({ nullable: true })
+  public closed_at?: Date;
 }
