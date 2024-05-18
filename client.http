@@ -54,34 +54,18 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-05-10",
+  "meal_date": "2024-05-18",
   "shift": "LUNCH",
   "price": 14.49,
   "availability": 10,
   "foods": [
-    {
+        {
       "id": 1,
-      "createdAt": "2024-04-29T17:02:18.000Z",
-      "updatedAt": "2024-04-29T17:02:18.000Z",
-      "name": "Arroz Branco",
-      "portion": 110,
-      "calories": 140
-    },
-     {
-      "id": 8,
-      "createdAt": "2024-05-10T17:50:03.000Z",
-      "updatedAt": "2024-05-10T17:50:03.000Z",
+      "createdAt": "2024-05-18T18:38:36.000Z",
+      "updatedAt": "2024-05-18T18:38:36.000Z",
       "name": "Feijão Preto",
       "portion": 120,
       "calories": 240
-    },
-     {
-      "id": 5,
-      "createdAt": "2024-04-29T17:03:38.000Z",
-      "updatedAt": "2024-04-29T17:03:38.000Z",
-      "name": "Bife Grelhado",
-      "portion": 100,
-      "calories": 210
     }
   ]
 }
@@ -102,7 +86,7 @@ Authorization: Bearer {{authToken}}
 
 {
   "meal":  {
-    "id": 5
+    "id": 1
   },
   "discount": 11.49
 }

@@ -30,4 +30,7 @@ export abstract class OrderPayment extends BaseEntity {
     default: OrderPaymentState.PENDING,
   })
   public state: OrderPaymentState
+
+  @Column({ nullable: true })
+  public closed_at?: Date;
 }

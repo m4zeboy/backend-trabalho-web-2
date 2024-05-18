@@ -63,6 +63,7 @@ export class PaymentService {
   approve(id: number) {
     return this.orderPaymentRepository.update(id, {
       state: OrderPaymentState.APPROVED,
+      closed_at: new Date()
     })
   }
 
@@ -70,6 +71,7 @@ export class PaymentService {
   reject(id: number) {
     return this.orderPaymentRepository.update(id, {
       state: OrderPaymentState.REJECTED,
+      closed_at: new Date()
     })
   }
 }

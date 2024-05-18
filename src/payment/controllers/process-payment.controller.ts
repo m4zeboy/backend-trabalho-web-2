@@ -21,7 +21,7 @@ export class ProcessPaymentController {
 
   @Patch(':id/process') // Processar o pagamento
   async process(@Param('id') id: number) {
-    /* Verficar se o pagamento existe, se não exister retorna uma exceção */
+    /* Verficar se o pagamento existe, se não existir retorna uma exceção */
     const doesPaymentExists = await this.paymentService.findOneById(id)
     if (!doesPaymentExists) {
       throw new RecordNotFoundException()
