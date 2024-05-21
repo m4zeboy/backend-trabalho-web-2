@@ -32,5 +32,5 @@ export abstract class OrderPayment extends BaseEntity {
   public state: OrderPaymentState
 
   @Column({ nullable: true })
-  public closed_at?: Date;
+  public closed_at?: Date
 }

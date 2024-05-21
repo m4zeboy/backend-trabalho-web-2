@@ -1,5 +1,6 @@
 import { CurrentUser } from '@core/decorators'
 import { MealIsNotAvailableException } from '@exceptions/meal-is-not-available.exception'
+import { PurchaseWindowIsClosedException } from '@exceptions/purchase-window-is-closed.exception'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import { Body, Controller, Post } from '@nestjs/common'
 import { User } from 'src/auth/users/entities/user.entity'
@@ -24,13 +25,26 @@ export class PlaceOrderController {
       throw new RecordNotFoundException()
     }
 
+    /* Verifica se a data que o usuário está fazendo o pedido é a mesma data da refeição. RN-11 */
+    const isCurrentDateTheSameAsMealDate =
+      this.mealsService.isCurrentDateTheSameAsMealDate(doesMealExists.meal_date)
+
+    if (!isCurrentDateTheSameAsMealDate) {
+      throw new MealIsNotAvailableException()
+    }
+    /* verifica se está na janela de venda. RN-03 */
+    const meal = doesMealExists
+    if (!meal.isInPurchaseWindow()) {
+      throw new PurchaseWindowIsClosedException()
+    }
     const { availability } = doesMealExists
 
+    /* verifica se a refeição está disponível. RN-10 */
     if (availability < 1) {
       throw new MealIsNotAvailableException()
     }
 
     const dto = { ...body, requester }
-    return this.ordersService.create(dto)
+    return await this.ordersService.create(dto)
   }
 }

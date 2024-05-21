@@ -1,7 +1,7 @@
 import { BaseEntity } from '@core/entities'
-import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm'
-import { Food } from '../foods/entities/food.entity'
 import { Order } from 'src/orders/entities/order.entity'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
+import { Food } from '../foods/entities/food.entity'
 
 export enum MealShift {
   LUNCH = 'LUNCH',
@@ -37,4 +37,32 @@ export class Meal extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.meal)
   public orders: Order[]
+
+  private getPurchaseWindow() {
+    const PURCHASE_WINDOW = new Map<MealShift, Date[]>()
+
+    const startLunchWindow = new Date()
+    startLunchWindow.setHours(11, 0, 0)
+
+    const endLunchWindow = new Date()
+    endLunchWindow.setHours(13, 30, 0)
+
+    const startDinnerWindow = new Date()
+    startDinnerWindow.setHours(18, 0, 0)
+
+    const endDinnerWindow = new Date()
+    endDinnerWindow.setHours(20, 30, 0)
+
+    PURCHASE_WINDOW.set(MealShift.LUNCH, [startLunchWindow, endLunchWindow])
+    PURCHASE_WINDOW.set(MealShift.DINNER, [startDinnerWindow, endDinnerWindow])
+    return PURCHASE_WINDOW
+  }
+
+  /* Função para verificar se a data atual está dentro da janela de compra -> usado para fazer o pedido */
+  public isInPurchaseWindow() {
+    const PURCHASE_WINDOW = this.getPurchaseWindow()
+    const currentDate = new Date()
+    const [startWindow, endWindow] = PURCHASE_WINDOW.get(this.shift)
+    return currentDate >= startWindow && currentDate <= endWindow
+  }
 }

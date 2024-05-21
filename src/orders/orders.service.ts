@@ -10,7 +10,7 @@ import { Order } from './entities/order.entity'
 export class OrdersService {
   constructor(@InjectRepository(Order) private repository: Repository<Order>) {}
 
-  async create(createOrderDto: CreateOrderDto) {
+  create(createOrderDto: CreateOrderDto) {
     const order = this.repository.create(createOrderDto)
     return this.repository.save(order)
   }
