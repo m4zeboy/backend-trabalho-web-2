@@ -5,14 +5,14 @@ import { VoucherAlreadyValidated } from '@exceptions/voucher-already-validated.e
 import { OrderPayment } from 'src/payment/entities/order-payment.entity'
 import { VoucherExpired } from '@exceptions/voucher-expired'
 import { Order } from 'src/orders/entities/order.entity'
-import { AuthGuard } from 'src/auth/guards/voucher-auth.guard'
+import { RolesGuard } from 'src/auth/guards/role.guard'
 
 @Controller('voucher')
 export class ValidateVoucherController {
   constructor(private readonly voucherService: VoucherService) {}
 
   @Patch(':id/validate') // Rota para validar voucher
-  @UseGuards(AuthGuard) // Chamando o guardinha piuiuiuiui
+  @UseGuards(RolesGuard) // Chamando o guardinha piuiuiuiui
   async validate(@Param('id') id: number) {
     const voucher = await this.voucherService.findOneById(id)
 
