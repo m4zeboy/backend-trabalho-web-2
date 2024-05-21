@@ -74,4 +74,14 @@ export class MealService {
   //   // Não é necessário especificar o id pois ele ja puxa do meal
   //   return `This action removes a #${id} meal`
   // }
+
+  isCurrentDateTheSameAsMealDate(mealDate: string | Date): boolean {
+    let mealDateString = mealDate
+    if (typeof mealDate === 'object') {
+      mealDateString = mealDate.toISOString().split('T')[0]
+    }
+    const currentDate = new Date()
+    const currentDateString = currentDate.toISOString().split('T')[0]
+    return currentDateString === mealDateString
+  }
 }

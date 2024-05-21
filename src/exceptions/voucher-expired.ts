@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common'
 
-export class VoucherExpired extends HttpException{
-    constructor(){
-        super('Voucher Expired.', HttpStatus.CONFLICT)
-    }
+export class VoucherExpired extends HttpException {
+  constructor() {
+    super('Voucher Expired.', HttpStatus.CONFLICT)
+  }
 }
