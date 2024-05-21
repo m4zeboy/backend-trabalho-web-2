@@ -1,16 +1,18 @@
-import { Controller, Patch, Param } from '@nestjs/common'
+import { Controller, Patch, Param, UseGuards } from '@nestjs/common'
 import { VoucherService } from '../voucher.service'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import { VoucherAlreadyValidated } from '@exceptions/voucher-already-validated.exception'
 import { OrderPayment } from 'src/payment/entities/order-payment.entity'
 import { VoucherExpired } from '@exceptions/voucher-expired'
 import { Order } from 'src/orders/entities/order.entity'
+import { AuthGuard } from 'src/auth/guards/voucher-auth.guard'
 
 @Controller('voucher')
 export class ValidateVoucherController {
   constructor(private readonly voucherService: VoucherService) {}
 
   @Patch(':id/validate') // Rota para validar voucher
+  @UseGuards(AuthGuard) // Chamando o guardinha piuiuiuiui
   async validate(@Param('id') id: number) {
     const voucher = await this.voucherService.findOneById(id)
 
