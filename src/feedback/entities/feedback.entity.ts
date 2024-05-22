@@ -1,5 +1,7 @@
 import { BaseEntity } from '@core/entities'
-import { Column, Entity } from 'typeorm'
+import { User } from 'src/auth/users/entities/user.entity'
+import { Meal } from 'src/meal/entities/meal.entity'
+import { Column, Entity, JoinTable, ManyToOne } from 'typeorm'
 
 @Entity()
 export class Feedback extends BaseEntity {
@@ -9,12 +11,10 @@ export class Feedback extends BaseEntity {
   })
   public content: string
 
-  @Column({
-    type: 'date',
-    default: () => 'CURRENT_DATE',
-  })
-  public created_at: Date
+  @ManyToOne(()  => User, (user) =>  user.feedbacks, { eager: true})
+  @JoinTable()
+  public commented_by: User
 
-  @Column({ type: 'int' })
-  public commented_by: number
+  @ManyToOne(() => Meal, (meal) => meal.feedbacks, { eager:  true})
+  public subject: Meal
 }

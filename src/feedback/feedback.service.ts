@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
+import { Equal, FindOptionsWhere, Repository } from 'typeorm'
 import { CreateFeedbackDto } from './dto/create-feedback-dto'
 import { UpdateFeebackDto } from './dto/update-feeddback-dto'
 import { Feedback } from './entities/feedback.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { FindOptionsWhere, Equal, Repository } from 'typeorm'
-import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
 
 @Injectable()
 export class FeedbackService {
@@ -14,11 +14,7 @@ export class FeedbackService {
   ) {}
 
   async create(createFeedbackDto: CreateFeedbackDto) {
-    const feedback = new Feedback()
-    feedback.content = createFeedbackDto.content
-    feedback.created_at = createFeedbackDto.created_at
-    feedback.commented_by = createFeedbackDto.commented_by
-
+    const feedback = this.repository.create(createFeedbackDto)
     return this.repository.save(feedback)
   }
 
