@@ -54,7 +54,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-05-20",
+  "meal_date": "2024-05-24",
   "shift": "DINNER",
   "price": 14.49,
   "availability": 10,
@@ -73,7 +73,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_meals_of_the_day
-GET {{baseUrl}}/meal?date=2024-05-10
+GET {{baseUrl}}/meal?date=2024-05-24
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -86,9 +86,8 @@ Authorization: Bearer {{authToken}}
 
 {
   "meal":  {
-    "id": 6
-  },
-  "discount": 11.49
+    "id": 7
+  }
 }
 
 ###

@@ -55,7 +55,7 @@ export class Meal extends BaseEntity {
     startDinnerWindow.setHours(18, 0, 0)
 
     const endDinnerWindow = new Date()
-    endDinnerWindow.setHours(20, 30, 0)
+    endDinnerWindow.setHours(23, 30, 0)
 
     PURCHASE_WINDOW.set(MealShift.LUNCH, [startLunchWindow, endLunchWindow])
     PURCHASE_WINDOW.set(MealShift.DINNER, [startDinnerWindow, endDinnerWindow])

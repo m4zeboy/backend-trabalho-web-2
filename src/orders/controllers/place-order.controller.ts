@@ -1,4 +1,5 @@
 import { CurrentUser } from '@core/decorators'
+import { randomBoolean } from '@core/utils/random-boolean'
 import { MealIsNotAvailableException } from '@exceptions/meal-is-not-available.exception'
 import { PurchaseWindowIsClosedException } from '@exceptions/purchase-window-is-closed.exception'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
@@ -7,7 +8,6 @@ import { User } from 'src/auth/users/entities/user.entity'
 import { MealService } from 'src/meal/meal.service'
 import { CreateOrderRequestBody } from '../dto/create-order-request-body'
 import { OrdersService } from '../orders.service'
-import { randomBoolean } from '@core/utils/random-boolean'
 
 @Controller('orders')
 export class PlaceOrderController {
@@ -21,6 +21,8 @@ export class PlaceOrderController {
     @Body() body: CreateOrderRequestBody,
     @CurrentUser() requester: User,
   ) {
+    try {
+
     const doesMealExists = await this.mealsService.findOne(body.meal.id)
     if (!doesMealExists) {
       throw new RecordNotFoundException()
@@ -55,5 +57,10 @@ export class PlaceOrderController {
 
     const dto = { ...body, requester, discount } 
     return await this.ordersService.create(dto)
+  } catch(error) {
+    console.log(error)
+    throw error
+  }
+
   }
 }

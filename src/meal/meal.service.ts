@@ -76,12 +76,27 @@ export class MealService {
   // }
 
   isCurrentDateTheSameAsMealDate(mealDate: string | Date): boolean {
-    let mealDateString = mealDate
-    if (typeof mealDate === 'object') {
-      mealDateString = mealDate.toISOString().split('T')[0]
-    }
-    const currentDate = new Date()
-    const currentDateString = currentDate.toISOString().split('T')[0]
-    return currentDateString === mealDateString
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    // Função para converter uma data para uma string no formato 'yyyy-MM-dd' considerando o fuso horário
+    const formatDateToTimezone = (date: Date, timeZone: string): string => {
+      const formatter = new Intl.DateTimeFormat('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone
+      });
+      return formatter.format(date).replace(/\//g, '-');
+    };
+  
+    let mealDateString = mealDate;
+  
+    const currentDate = new Date();
+    const currentDateString = formatDateToTimezone(currentDate, timeZone);
+  
+    console.log('Current Date String:', currentDateString);
+    console.log('Meal Date String:', mealDateString);
+  
+    return currentDateString === mealDateString;
   }
 }
