@@ -2,17 +2,18 @@ import { Controller, Patch, Param, UseGuards } from '@nestjs/common'
 import { VoucherService } from '../voucher.service'
 import { RecordNotFoundException } from '@exceptions/record-not-found.exception'
 import { VoucherAlreadyValidated } from '@exceptions/voucher-already-validated.exception'
-import { OrderPayment } from 'src/payment/entities/order-payment.entity'
 import { VoucherExpired } from '@exceptions/voucher-expired'
-import { Order } from 'src/orders/entities/order.entity'
 import { RolesGuard } from 'src/auth/guards/role.guard'
+import { RequiresRole } from '@core/decorators/requires-role.decorator'
+import { UserRole } from 'src/auth/users/types/user-role.enum'
 
 @Controller('voucher')
 export class ValidateVoucherController {
   constructor(private readonly voucherService: VoucherService) {}
 
   @Patch(':id/validate') // Rota para validar voucher
-  @UseGuards(RolesGuard) // Chamando o guardinha piuiuiuiui
+  @RequiresRole(UserRole.ADMIN)
+  @UseGuards(RolesGuard) // Chamando o guardinha piuiuiuiuiui
   async validate(@Param('id') id: number) {
     const voucher = await this.voucherService.findOneById(id)
 
