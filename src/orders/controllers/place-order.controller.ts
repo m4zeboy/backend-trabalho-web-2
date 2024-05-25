@@ -7,6 +7,7 @@ import { User } from 'src/auth/users/entities/user.entity'
 import { MealService } from 'src/meal/meal.service'
 import { CreateOrderRequestBody } from '../dto/create-order-request-body'
 import { OrdersService } from '../orders.service'
+import { randomBoolean } from '@core/utils/random-boolean'
 
 @Controller('orders')
 export class PlaceOrderController {
@@ -44,7 +45,15 @@ export class PlaceOrderController {
       throw new MealIsNotAvailableException()
     }
 
-    const dto = { ...body, requester }
+    /* VERIFICA COM RANDOM BOOLEAN SE O USUARIO TERA O DESCONTO OU NÃO */ 
+  
+    const verifyDisponibilityDiscount = randomBoolean()
+    let discount = 0; /* DECLARANDO A VARIAVEL COM LET POIS NÃO É UM VALOR CONSTANTE */
+    if(verifyDisponibilityDiscount){
+      discount = 10; /* REATRIBUINDO O VALOR DE DESCONTO CASO O VALOR DE VDD SEJA TRUE */
+    }
+
+    const dto = { ...body, requester, discount } 
     return await this.ordersService.create(dto)
   }
 }
