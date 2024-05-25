@@ -33,6 +33,14 @@ export class OrdersService {
     return this.repository.update(id, updateOrderDto)
   }
 
+  findOneByRequester(requesterId: number) {
+    return this.repository.findOneBy({
+      requester: {
+        id: requesterId
+      }
+    })
+  }
+
   // remove(id: number) {
   //   return `This action removes a #${id} order`
   // }

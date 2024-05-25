@@ -1,10 +1,12 @@
+import { Type } from 'class-transformer'
 import {
-  IsDate,
-  IsNumber,
   IsNotEmpty,
   IsString,
   MinLength,
+  ValidateNested
 } from 'class-validator'
+import { User } from 'src/auth/users/entities/user.entity'
+import { Meal } from 'src/meal/entities/meal.entity'
 
 export class CreateFeedbackDto {
   @IsString()
@@ -12,12 +14,11 @@ export class CreateFeedbackDto {
   @MinLength(3)
   public content: string
 
-  @IsDate()
-  @IsNotEmpty()
-  public created_at: Date
+  @ValidateNested()
+  @Type(() => User)
+  public commented_by:User
 
-  @IsNumber()
-  @IsNotEmpty()
-  @MinLength(3)
-  public commented_by: number
+  @ValidateNested()
+  @Type(() => Meal)
+  public subject:Meal
 }

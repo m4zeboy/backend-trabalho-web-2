@@ -1,8 +1,9 @@
 import { BaseEntity } from '@core/entities'
+import { hashSync } from 'bcrypt'
+import { Feedback } from 'src/feedback/entities/feedback.entity'
+import { Order } from 'src/orders/entities/order.entity'
 import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm'
 import { UserRole } from '../types/user-role.enum'
-import { hashSync } from 'bcrypt'
-import { Order } from 'src/orders/entities/order.entity'
 
 @Entity()
 export class User extends BaseEntity {
@@ -36,6 +37,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.requester)
   public orders: Order[]
+
+  @OneToMany(() =>  Feedback, (feedbacks) =>  feedbacks.commented_by)
+  public feedbacks: Feedback[]
 
   @BeforeInsert()
   encryptPassword() {

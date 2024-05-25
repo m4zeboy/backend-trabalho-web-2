@@ -1,4 +1,5 @@
 import { BaseEntity } from '@core/entities'
+import { Feedback } from 'src/feedback/entities/feedback.entity'
 import { Order } from 'src/orders/entities/order.entity'
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { Food } from '../foods/entities/food.entity'
@@ -37,6 +38,9 @@ export class Meal extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.meal)
   public orders: Order[]
+
+  @OneToMany(() => Feedback, (feedback) => feedback.subject)
+  public feedbacks: Feedback[]
 
   private getPurchaseWindow() {
     const PURCHASE_WINDOW = new Map<MealShift, Date[]>()
