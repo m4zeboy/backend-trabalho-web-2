@@ -7,7 +7,4 @@ export class CreateOrderRequestBody {
   @Type(() => Meal)
   public meal: Meal
 
-  @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 2 })
-  public discount: number
 }
