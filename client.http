@@ -167,3 +167,10 @@ Authorization: Bearer {{authToken}}
 {
   "content": "Feedback teste"
 }
+
+###
+
+# @name list_meal_feedbacks
+GET {{baseUrl}}/feedback/6?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

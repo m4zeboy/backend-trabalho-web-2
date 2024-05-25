@@ -28,7 +28,7 @@ export class PostFeedbackController {
       throw new RecordNotFoundException()
     }
     if(!voucher.validated_at) {
-      throw new HttpException("You can't post a feedback if you have not consumed your meal.", HttpStatus.FORBIDDEN)
+      throw new HttpException("You have to consume your meal before to post a feedback.", HttpStatus.FORBIDDEN)
     }
 
     const meal = voucher.order.meal

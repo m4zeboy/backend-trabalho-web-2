@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
-import { Equal, FindOptionsWhere, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { CreateFeedbackDto } from './dto/create-feedback-dto'
 import { UpdateFeebackDto } from './dto/update-feeddback-dto'
 import { Feedback } from './entities/feedback.entity'
@@ -18,12 +18,11 @@ export class FeedbackService {
     return this.repository.save(feedback)
   }
 
-  async FindAll(options: IPaginationOptions, commented_by?: number) {
-    const where: FindOptionsWhere<Feedback> = {}
-    if (commented_by) {
-      where.commented_by = Equal(commented_by)
-    }
-    return paginate(this.repository, options, { where })
+  async listByMealId(options: IPaginationOptions, mealId?: number) {
+    const queryBuilder = this.repository.createQueryBuilder('feedback')
+    .leftJoinAndSelect('feedback.subject', 'meal')
+    .where('feedback.subjectId = :mealId', { mealId })
+    return paginate(queryBuilder, options)
   }
 
   findOne(id: number) {
