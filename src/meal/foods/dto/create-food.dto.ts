@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, Min, MinLength } from 'class-validator'
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, Min, MinLength } from 'class-validator'
 
 export class CreateFoodDto {
   @IsString()
@@ -15,4 +15,10 @@ export class CreateFoodDto {
   @IsNotEmpty()
   @Min(1)
   public calories: number
+
+  @IsString()
+  @IsUrl()
+  @IsOptional()
+  public imageUrl: string
+
 }

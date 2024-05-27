@@ -36,7 +36,8 @@ Authorization: Bearer {{authToken}}
 {
   "name": "Feijão Preto",
   "portion": 120,
-  "calories": 240
+  "calories": 240,
+  "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
 }
 
 ###
