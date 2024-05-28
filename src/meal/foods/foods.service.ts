@@ -1,20 +1,17 @@
 import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
+import { FindOptionsWhere, ILike, Repository } from 'typeorm'
 import { CreateFoodDto } from './dto/create-food.dto'
 import { UpdateFoodDto } from './dto/update-food.dto'
 import { Food } from './entities/food.entity'
-import { InjectRepository } from '@nestjs/typeorm'
-import { FindOptionsWhere, ILike, Repository } from 'typeorm'
-import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
 
 @Injectable()
 export class FoodsService {
   constructor(@InjectRepository(Food) private repository: Repository<Food>) {}
 
-  async create(createFoodDto: CreateFoodDto) {
-    const food = new Food()
-    food.name = createFoodDto.name
-    food.portion = createFoodDto.portion
-    food.calories = createFoodDto.calories
+  create(createFoodDto: CreateFoodDto) {
+    const food = this.repository.create(createFoodDto)
     return this.repository.save(food)
   }
 

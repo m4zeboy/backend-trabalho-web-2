@@ -17,6 +17,11 @@ export class Food extends BaseEntity {
   })
   public calories: number
 
+  @Column({
+    nullable: true
+  })
+  public imageUrl?: string
+
   @ManyToMany(() => Meal, (meal) => meal.foods)
   meals: Meal[]
 }
