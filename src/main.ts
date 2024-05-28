@@ -1,8 +1,21 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { BadRequestException, ValidationPipe } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
+import { ValidationError } from 'class-validator'
+
+import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const app = await NestFactory.create(AppModule)
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: (validationErrors: ValidationError[] = []) => {
+        return new BadRequestException(validationErrors)
+      },
+    }),
+  )
+
+  app.useLogger(false)
+  await app.listen(3333)
 }
-bootstrap();
+bootstrap()

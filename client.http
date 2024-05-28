@@ -1,0 +1,176 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
+@order_id = {{order.response.body.id}}
+@payment_id_by_credit_card = {{set_credit_card.response.body.id}}
+@payment_id_by_pix = {{generate_pix_code.response.body.id}}
+
+# @name create_account
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Moisés Silva de Azevedo",
+  "cpf": "96049077002",
+  "email": "moises3@email.com",
+  "password": "Pa$$word",
+  "role": "ADMIN"  
+}
+
+### 
+# @name authenticate
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "moises3@email.com",
+  "password": "Pa$$word"  
+}
+
+###
+
+# @name create_food
+POST {{baseUrl}}/foods
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Feijão Preto",
+  "portion": 120,
+  "calories": 240,
+  "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
+}
+
+###
+
+# @name list_foods
+GET {{baseUrl}}/foods
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name create_meal
+POST {{baseUrl}}/meal
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "meal_date": "2024-05-24",
+  "shift": "DINNER",
+  "price": 14.49,
+  "availability": 10,
+  "foods": [
+        {
+      "id": 1,
+      "createdAt": "2024-05-18T18:38:36.000Z",
+      "updatedAt": "2024-05-18T18:38:36.000Z",
+      "name": "Feijão Preto",
+      "portion": 120,
+      "calories": 240
+    }
+  ]
+}
+
+###
+
+# @name get_meals_of_the_day
+GET {{baseUrl}}/meal?date=2024-05-24
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name order
+POST {{baseUrl}}/orders
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "meal":  {
+    "id": 7
+  }
+}
+
+###
+
+# @name set_payment_method_credit_card
+PATCH {{baseUrl}}/orders/{{order_id}}/payment
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "payment_method": "CREDIT_CARD"
+}
+
+###
+
+# @name set_payment_method_pix
+PATCH {{baseUrl}}/orders/{{order_id}}/payment
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "payment_method": "PIX"
+}
+
+###
+
+# @name set_credit_card
+POST {{baseUrl}}/payment/credit-card
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "order": {
+    "id": {{order_id}}
+  },
+  "card_number": "4958754160219305",
+  "expiration_date": "2026-05-12",
+  "security_code": 448,
+  "account_holder": "MOISES S AZEVEDO"
+}
+
+###
+
+# @name generate_pix_code
+POST {{baseUrl}}/payment/pix
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "order": {
+    "id": {{order_id}}
+  }
+}
+
+###
+
+# @name process_payment_by_credit_card
+PATCH {{baseUrl}}/payment/{{payment_id_by_credit_card}}/process
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name process_payment_by_pix
+PATCH {{baseUrl}}/payment/{{payment_id_by_pix}}/process
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name post_feedback
+POST {{baseUrl}}/feedback/8
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "Feedback teste"
+}
+
+###
+
+# @name list_meal_feedbacks
+GET {{baseUrl}}/feedback/6?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
