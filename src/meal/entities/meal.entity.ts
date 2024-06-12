@@ -46,7 +46,7 @@ export class Meal extends BaseEntity {
     const PURCHASE_WINDOW = new Map<MealShift, Date[]>()
 
     const startLunchWindow = new Date()
-    startLunchWindow.setHours(11, 0, 0)
+    startLunchWindow.setHours(10, 0, 0)
 
     const endLunchWindow = new Date()
     endLunchWindow.setHours(13, 30, 0)

@@ -16,6 +16,7 @@ async function bootstrap() {
   )
 
   app.useLogger(false)
+  app.enableCors()
   await app.listen(3333)
 }
 bootstrap()

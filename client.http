@@ -9,9 +9,9 @@ POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "name": "Moisés Silva de Azevedo",
-  "cpf": "96049077002",
-  "email": "moises3@email.com",
+  "name": "Administrador DE VERDADE 2",
+  "cpf": "00721223079",
+  "email": "admin2@email.com",
   "password": "Pa$$word",
   "role": "ADMIN"  
 }
@@ -22,7 +22,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "moises3@email.com",
+  "email": "john.doe@email.com",
   "password": "Pa$$word"  
 }
 
@@ -34,16 +34,16 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Feijão Preto",
-  "portion": 120,
-  "calories": 240,
+  "name": "Carne de Panela",
+  "portion": 130,
+  "calories": 347,
   "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
 }
 
 ###
 
 # @name list_foods
-GET {{baseUrl}}/foods
+GET {{baseUrl}}/foods?page=2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -55,18 +55,55 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-05-24",
-  "shift": "DINNER",
+  "meal_date": "2024-05-30",
+  "shift": "LUNCH",
   "price": 14.49,
-  "availability": 10,
+  "availability": 150,
   "foods": [
-        {
-      "id": 1,
-      "createdAt": "2024-05-18T18:38:36.000Z",
-      "updatedAt": "2024-05-18T18:38:36.000Z",
-      "name": "Feijão Preto",
-      "portion": 120,
-      "calories": 240
+           {
+      "id": 11,
+      "createdAt": "2024-05-30T13:43:33.000Z",
+      "updatedAt": "2024-05-30T13:43:33.000Z",
+      "name": "Arroz Branco",
+      "portion": 100,
+      "calories": 130,
+      "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
+    },
+    {
+      "id": 12,
+      "createdAt": "2024-05-30T13:44:05.000Z",
+      "updatedAt": "2024-05-30T13:44:05.000Z",
+      "name": "Feijão Carioca",
+      "portion": 80,
+      "calories": 347,
+      "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
+    },
+    {
+      "id": 13,
+      "createdAt": "2024-05-30T13:44:47.000Z",
+      "updatedAt": "2024-05-30T13:44:47.000Z",
+      "name": "Salada de alface, tomate e rúcula",
+      "portion": 60,
+      "calories": 34,
+      "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
+    },
+    {
+      "id": 14,
+      "createdAt": "2024-05-30T13:45:23.000Z",
+      "updatedAt": "2024-05-30T13:45:23.000Z",
+      "name": "Mandioca",
+      "portion": 80,
+      "calories": 138,
+      "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
+    },
+    {
+      "id": 15,
+      "createdAt": "2024-05-30T13:45:48.000Z",
+      "updatedAt": "2024-05-30T13:45:48.000Z",
+      "name": "Carne de Panela",
+      "portion": 130,
+      "calories": 347,
+      "imageUrl": "https://unsplash.com/pt-br/fotografias/salada-top-view-com-guacamole-oaz0raysASk"
     }
   ]
 }
@@ -74,7 +111,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_meals_of_the_day
-GET {{baseUrl}}/meal?date=2024-05-24
+GET {{baseUrl}}/meal?date=2024-05-30
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -87,14 +124,14 @@ Authorization: Bearer {{authToken}}
 
 {
   "meal":  {
-    "id": 7
+    "id": 8
   }
 }
 
 ###
 
 # @name set_payment_method_credit_card
-PATCH {{baseUrl}}/orders/{{order_id}}/payment
+PATCH {{baseUrl}}/orders/25/payment
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -122,7 +159,7 @@ Authorization: Bearer {{authToken}}
 
 {
   "order": {
-    "id": {{order_id}}
+    "id": 25
   },
   "card_number": "4958754160219305",
   "expiration_date": "2026-05-12",
@@ -146,7 +183,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name process_payment_by_credit_card
-PATCH {{baseUrl}}/payment/{{payment_id_by_credit_card}}/process
+PATCH {{baseUrl}}/payment/20/process
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -156,21 +193,27 @@ Authorization: Bearer {{authToken}}
 PATCH {{baseUrl}}/payment/{{payment_id_by_pix}}/process
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+###
+
+# @name validate_voucher
+PATCH {{baseUrl}}/voucher/10/validate
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 ###
 
 # @name post_feedback
-POST {{baseUrl}}/feedback/8
+POST {{baseUrl}}/feedback/10
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "content": "Feedback teste"
+  "content": "Estava muito bom."
 }
 
 ###
 
 # @name list_meal_feedbacks
-GET {{baseUrl}}/feedback/6?page=1
+GET {{baseUrl}}/feedback/8?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
