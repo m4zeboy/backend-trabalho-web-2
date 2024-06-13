@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsOptional,
   IsString,
   Length,
   Matches,
@@ -28,5 +29,6 @@ export class CreateUserDto {
   public password: string
 
   @IsEnum(UserRole)
+  @IsOptional()
   public role: UserRole
 }
