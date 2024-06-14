@@ -5,15 +5,15 @@ import {
   Get,
   Param,
   Post,
-  Query,
-  Patch,
+  Query
 } from '@nestjs/common'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
+import { Voucher } from './entities/voucher.entity'
 import { VoucherService } from './voucher.service'
 
 @Controller('voucher')
 export class VoucherController {
-  constructor(private readonly voucherService: VoucherService) {}
+  constructor(private readonly voucherService: VoucherService) { }
 
   @Post()
   create(@Body() createVoucherDto: CreateVoucherDto) {
@@ -23,9 +23,11 @@ export class VoucherController {
   @Get()
   findAll(
     @Query('page') page: number = 1,
-    @Query('order_id') order_id: number,
+    @Query('user_id') user_id: number,
+    @Query('order_by') order_by: keyof Voucher,
+    @Query('order_by_direction') order_by_direction: 'ASC' | 'DESC'
   ) {
-    return this.voucherService.findAll({ page, limit: 10 }, order_id)
+    return this.voucherService.findAll({ page, limit: 10 }, { user_id, order_by, order_by_direction })
   }
 
   @Get(':id')

@@ -202,6 +202,14 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name list_vouchers
+GET {{baseUrl}}/voucher?user_id=1&order_by=createdAt
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+
 # @name post_feedback
 POST {{baseUrl}}/feedback/10
 Content-Type: application/json
