@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
-import { FindOptionsWhere, Repository } from 'typeorm'
+import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { Voucher } from './entities/voucher.entity'
 
@@ -9,21 +9,31 @@ import { Voucher } from './entities/voucher.entity'
 export class VoucherService {
   constructor(
     @InjectRepository(Voucher) private repository: Repository<Voucher>,
-  ) {}
+  ) { }
 
   create(createVoucherDto: CreateVoucherDto) {
     const voucher = this.repository.create(createVoucherDto)
     return this.repository.save(voucher)
   }
 
-  async findAll(options: IPaginationOptions, order_id?: number) {
+  async findAll(options: IPaginationOptions,
+    query?: { user_id?: number, order_by?: keyof Voucher, order_by_direction: 'ASC' | 'DESC' }) {
     const where: FindOptionsWhere<Voucher> = {}
-    if (order_id) {
+    const order: FindOptionsOrder<Voucher> = {}
+    if (query.user_id) {
       where.order = {
-        id: order_id,
+        requester: {
+          id: query.user_id
+        }
       }
     }
-    return paginate(this.repository, options, { where })
+
+
+    if (query?.order_by) {
+      order[query.order_by] = query.order_by_direction ? query.order_by_direction : 'DESC'
+    }
+
+    return paginate(this.repository, options, { where, order })
   }
 
   async updateValidatedAt(voucherId: number, validatedAt: Date) {
