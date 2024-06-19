@@ -6,5 +6,4 @@ export class CreateOrderRequestBody {
   @ValidateNested()
   @Type(() => Meal)
   public meal: Meal
-
 }

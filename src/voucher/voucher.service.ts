@@ -9,28 +9,35 @@ import { Voucher } from './entities/voucher.entity'
 export class VoucherService {
   constructor(
     @InjectRepository(Voucher) private repository: Repository<Voucher>,
-  ) { }
+  ) {}
 
   create(createVoucherDto: CreateVoucherDto) {
     const voucher = this.repository.create(createVoucherDto)
     return this.repository.save(voucher)
   }
 
-  async findAll(options: IPaginationOptions,
-    query?: { user_id?: number, order_by?: keyof Voucher, order_by_direction: 'ASC' | 'DESC' }) {
+  async findAll(
+    options: IPaginationOptions,
+    query?: {
+      user_id?: number
+      order_by?: keyof Voucher
+      order_by_direction: 'ASC' | 'DESC'
+    },
+  ) {
     const where: FindOptionsWhere<Voucher> = {}
     const order: FindOptionsOrder<Voucher> = {}
     if (query.user_id) {
       where.order = {
         requester: {
-          id: query.user_id
-        }
+          id: query.user_id,
+        },
       }
     }
 
-
     if (query?.order_by) {
-      order[query.order_by] = query.order_by_direction ? query.order_by_direction : 'DESC'
+      order[query.order_by] = query.order_by_direction
+        ? query.order_by_direction
+        : 'DESC'
     }
 
     return paginate(this.repository, options, { where, order })

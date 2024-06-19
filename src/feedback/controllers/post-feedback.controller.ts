@@ -6,7 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  Post
+  Post,
 } from '@nestjs/common'
 import { User } from 'src/auth/users/entities/user.entity'
 import { VoucherService } from 'src/voucher/voucher.service'
@@ -17,26 +17,32 @@ import { FeedbackService } from '../feedback.service'
 export class PostFeedbackController {
   constructor(
     private readonly feedbackService: FeedbackService,
-    private readonly voucherService: VoucherService
+    private readonly voucherService: VoucherService,
   ) {}
 
   @Post()
-  async execute(@Body() { content }: CreateFeedbackRequestBody,  @CurrentUser() user: User, @Param('voucher_id') voucherId: number) {
-
+  async execute(
+    @Body() { content }: CreateFeedbackRequestBody,
+    @CurrentUser() user: User,
+    @Param('voucher_id') voucherId: number,
+  ) {
     const voucher = await this.voucherService.findOneById(voucherId)
-    if(!voucher) {
+    if (!voucher) {
       throw new RecordNotFoundException()
     }
-    if(!voucher.validated_at) {
-      throw new HttpException("You have to consume your meal before to post a feedback.", HttpStatus.FORBIDDEN)
+    if (!voucher.validated_at) {
+      throw new HttpException(
+        'You have to consume your meal before to post a feedback.',
+        HttpStatus.FORBIDDEN,
+      )
     }
 
     const meal = voucher.order.meal
 
-    return this.feedbackService.create({ 
+    return this.feedbackService.create({
       content,
       subject: meal,
-      commented_by: user
+      commented_by: user,
     })
   }
 

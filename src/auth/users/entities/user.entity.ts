@@ -38,7 +38,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Order, (order) => order.requester)
   public orders: Order[]
 
-  @OneToMany(() =>  Feedback, (feedbacks) =>  feedbacks.commented_by)
+  @OneToMany(() => Feedback, (feedbacks) => feedbacks.commented_by)
   public feedbacks: Feedback[]
 
   @BeforeInsert()

@@ -11,10 +11,10 @@ export class Feedback extends BaseEntity {
   })
   public content: string
 
-  @ManyToOne(()  => User, (user) =>  user.feedbacks, { eager: true})
+  @ManyToOne(() => User, (user) => user.feedbacks, { eager: true })
   @JoinTable()
   public commented_by: User
 
-  @ManyToOne(() => Meal, (meal) => meal.feedbacks, { eager:  true})
+  @ManyToOne(() => Meal, (meal) => meal.feedbacks, { eager: true })
   public subject: Meal
 }

@@ -3,7 +3,7 @@ import {
   IsNotEmpty,
   IsString,
   MinLength,
-  ValidateNested
+  ValidateNested,
 } from 'class-validator'
 import { User } from 'src/auth/users/entities/user.entity'
 import { Meal } from 'src/meal/entities/meal.entity'
@@ -16,9 +16,9 @@ export class CreateFeedbackDto {
 
   @ValidateNested()
   @Type(() => User)
-  public commented_by:User
+  public commented_by: User
 
   @ValidateNested()
   @Type(() => Meal)
-  public subject:Meal
+  public subject: Meal
 }

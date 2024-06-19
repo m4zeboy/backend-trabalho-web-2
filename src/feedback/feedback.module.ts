@@ -9,6 +9,6 @@ import { FeedbackService } from './feedback.service'
 @Module({
   imports: [TypeOrmModule.forFeature([Feedback]), VoucherModule],
   providers: [FeedbackService],
-  controllers: [PostFeedbackController,ListMealFeedbacksController],
+  controllers: [PostFeedbackController, ListMealFeedbacksController],
 })
 export class FeedbackModule {}

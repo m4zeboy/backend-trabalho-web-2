@@ -36,8 +36,8 @@ export class OrdersService {
   findOneByRequester(requesterId: number) {
     return this.repository.findOneBy({
       requester: {
-        id: requesterId
-      }
+        id: requesterId,
+      },
     })
   }
 

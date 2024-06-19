@@ -19,9 +19,10 @@ export class FeedbackService {
   }
 
   async listByMealId(options: IPaginationOptions, mealId?: number) {
-    const queryBuilder = this.repository.createQueryBuilder('feedback')
-    .leftJoinAndSelect('feedback.subject', 'meal')
-    .where('feedback.subjectId = :mealId', { mealId })
+    const queryBuilder = this.repository
+      .createQueryBuilder('feedback')
+      .leftJoinAndSelect('feedback.subject', 'meal')
+      .where('feedback.subjectId = :mealId', { mealId })
     return paginate(queryBuilder, options)
   }
 

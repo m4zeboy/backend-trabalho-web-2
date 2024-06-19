@@ -4,7 +4,7 @@ import { MealService } from '../meal.service'
 
 @Controller('meal')
 export class ListMealsController {
-  constructor(private readonly mealService: MealService) {}
+  constructor(private readonly mealService: MealService) { }
 
   @Get()
   findAll(

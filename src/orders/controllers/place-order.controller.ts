@@ -22,45 +22,45 @@ export class PlaceOrderController {
     @CurrentUser() requester: User,
   ) {
     try {
+      const doesMealExists = await this.mealsService.findOne(body.meal.id)
+      if (!doesMealExists) {
+        throw new RecordNotFoundException()
+      }
 
-    const doesMealExists = await this.mealsService.findOne(body.meal.id)
-    if (!doesMealExists) {
-      throw new RecordNotFoundException()
+      /* Verifica se a data que o usuário está fazendo o pedido é a mesma data da refeição. RN-11 */
+      const isCurrentDateTheSameAsMealDate =
+        this.mealsService.isCurrentDateTheSameAsMealDate(
+          doesMealExists.meal_date,
+        )
+
+      if (!isCurrentDateTheSameAsMealDate) {
+        throw new MealIsNotAvailableException()
+      }
+      /* verifica se está na janela de venda. RN-03 */
+      const meal = doesMealExists
+      if (!meal.isInPurchaseWindow()) {
+        throw new PurchaseWindowIsClosedException()
+      }
+      const { availability } = doesMealExists
+
+      /* verifica se a refeição está disponível. RN-10 */
+      if (availability < 1) {
+        throw new MealIsNotAvailableException()
+      }
+
+      /* VERIFICA COM RANDOM BOOLEAN SE O USUARIO TERA O DESCONTO OU NÃO */
+
+      const verifyDisponibilityDiscount = randomBoolean()
+      let discount = 0 /* DECLARANDO A VARIAVEL COM LET POIS NÃO É UM VALOR CONSTANTE */
+      if (verifyDisponibilityDiscount) {
+        discount = 10 /* REATRIBUINDO O VALOR DE DESCONTO CASO O VALOR DE VDD SEJA TRUE */
+      }
+
+      const dto = { ...body, requester, discount }
+      return await this.ordersService.create(dto)
+    } catch (error) {
+      console.log(error)
+      throw error
     }
-
-    /* Verifica se a data que o usuário está fazendo o pedido é a mesma data da refeição. RN-11 */
-    const isCurrentDateTheSameAsMealDate =
-      this.mealsService.isCurrentDateTheSameAsMealDate(doesMealExists.meal_date)
-
-    if (!isCurrentDateTheSameAsMealDate) {
-      throw new MealIsNotAvailableException()
-    }
-    /* verifica se está na janela de venda. RN-03 */
-    const meal = doesMealExists
-    if (!meal.isInPurchaseWindow()) {
-      throw new PurchaseWindowIsClosedException()
-    }
-    const { availability } = doesMealExists
-
-    /* verifica se a refeição está disponível. RN-10 */
-    if (availability < 1) {
-      throw new MealIsNotAvailableException()
-    }
-
-    /* VERIFICA COM RANDOM BOOLEAN SE O USUARIO TERA O DESCONTO OU NÃO */ 
-  
-    const verifyDisponibilityDiscount = randomBoolean()
-    let discount = 0; /* DECLARANDO A VARIAVEL COM LET POIS NÃO É UM VALOR CONSTANTE */
-    if(verifyDisponibilityDiscount){
-      discount = 10; /* REATRIBUINDO O VALOR DE DESCONTO CASO O VALOR DE VDD SEJA TRUE */
-    }
-
-    const dto = { ...body, requester, discount } 
-    return await this.ordersService.create(dto)
-  } catch(error) {
-    console.log(error)
-    throw error
-  }
-
   }
 }

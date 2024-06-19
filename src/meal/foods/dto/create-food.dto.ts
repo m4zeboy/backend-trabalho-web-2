@@ -1,4 +1,12 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, Min, MinLength } from 'class-validator'
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  Min,
+  MinLength,
+} from 'class-validator'
 
 export class CreateFoodDto {
   @IsString()
@@ -20,5 +28,4 @@ export class CreateFoodDto {
   @IsUrl()
   @IsOptional()
   public imageUrl: string
-
 }

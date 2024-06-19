@@ -18,7 +18,7 @@ export class Food extends BaseEntity {
   public calories: number
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   public imageUrl?: string
 
