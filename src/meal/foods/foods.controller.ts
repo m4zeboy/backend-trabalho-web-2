@@ -1,22 +1,28 @@
+import { RequiresRole } from '@core/decorators/requires-role.decorator'
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common'
-import { FoodsService } from './foods.service'
+import { RolesGuard } from 'src/auth/guards/role.guard'
+import { UserRole } from 'src/auth/users/types/user-role.enum'
 import { CreateFoodDto } from './dto/create-food.dto'
 import { UpdateFoodDto } from './dto/update-food.dto'
+import { FoodsService } from './foods.service'
 
 @Controller('foods')
 export class FoodsController {
-  constructor(private readonly foodsService: FoodsService) {}
+  constructor(private readonly foodsService: FoodsService) { }
 
   @Post()
+  @RequiresRole(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   create(@Body() createFoodDto: CreateFoodDto) {
     return this.foodsService.create(createFoodDto)
   }
@@ -32,11 +38,15 @@ export class FoodsController {
   }
 
   @Patch(':id')
+  @RequiresRole(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
     return this.foodsService.update(+id, updateFoodDto)
   }
 
   @Delete(':id')
+  @RequiresRole(UserRole.ADMIN)
+  @UseGuards(RolesGuard)
   remove(@Param('id') id: string) {
     return this.foodsService.remove(+id)
   }

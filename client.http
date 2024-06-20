@@ -55,7 +55,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "meal_date": "2024-06-18",
+  "meal_date": "2024-06-19",
   "shift": "LUNCH",
   "price": 14.49,
   "availability": 150,

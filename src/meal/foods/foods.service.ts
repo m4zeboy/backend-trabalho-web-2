@@ -8,7 +8,7 @@ import { Food } from './entities/food.entity'
 
 @Injectable()
 export class FoodsService {
-  constructor(@InjectRepository(Food) private repository: Repository<Food>) {}
+  constructor(@InjectRepository(Food) private repository: Repository<Food>) { }
 
   create(createFoodDto: CreateFoodDto) {
     const food = this.repository.create(createFoodDto)
@@ -24,11 +24,11 @@ export class FoodsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} food`
+    return this.repository.findOneBy({ id })
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
-    return `This action updates a #${id} food`
+    return this.repository.update(id, updateFoodDto)
   }
 
   remove(id: number) {
