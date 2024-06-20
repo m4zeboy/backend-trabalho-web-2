@@ -4,11 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
 import { FindOptionsWhere, Repository } from 'typeorm'
 import { CreateMealDto } from './dto/create-meal-dto'
+import { UpdateMealDto } from './dto/update-meal-dto'
 import { Meal, MealShift } from './entities/meal.entity'
 
 @Injectable()
 export class MealService {
-  constructor(@InjectRepository(Meal) private repository: Repository<Meal>) {}
+  constructor(@InjectRepository(Meal) private repository: Repository<Meal>) { }
 
   async create(createMealDto: CreateMealDto) {
     const meal = this.repository.create(createMealDto)
@@ -65,10 +66,10 @@ export class MealService {
   //   return `This action returns a #${id} meal`
   // }
 
-  // update(id: number) {
-  //   // Não é necessário especificar o id pois ele ja puxa do meal
-  //   return `This action updates a #${id} meal`
-  // }
+  update(id: number, updateMealDto: UpdateMealDto) {
+    // Não é necessário especificar o id pois ele ja puxa do meal
+    return this.repository.update(id, updateMealDto)
+  }
 
   // remove(id: number) {
   //   // Não é necessário especificar o id pois ele ja puxa do meal
