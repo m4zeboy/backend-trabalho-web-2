@@ -66,9 +66,10 @@ export class MealService {
   //   return `This action returns a #${id} meal`
   // }
 
-  update(id: number, updateMealDto: UpdateMealDto) {
-    // Não é necessário especificar o id pois ele ja puxa do meal
-    return this.repository.update(id, updateMealDto)
+  async update(id: number, updateMealDto: UpdateMealDto) {
+    const meal = await this.findOne(id)
+    Object.assign(meal, updateMealDto)
+    return await this.repository.save(meal)
   }
 
   // remove(id: number) {

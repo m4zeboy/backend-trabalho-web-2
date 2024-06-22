@@ -7,12 +7,18 @@ import { MealService } from '../meal.service'
 
 @Controller('meal')
 export class UpdateMealController {
-  constructor(private readonly mealService: MealService) { }
+  constructor(private readonly mealService: MealService) {}
 
   @Patch(':id')
   @RequiresRole(UserRole.ADMIN)
   @UseGuards(RolesGuard)
   async execute(@Param('id') id: string, @Body() updateMealDto: UpdateMealDto) {
-    return this.mealService.update(+id, updateMealDto)
+    try {
+      const response = await this.mealService.update(+id, updateMealDto)
+      return response
+    } catch (e) {
+      console.log(e)
+      throw e
+    }
   }
 }
