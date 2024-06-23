@@ -75,7 +75,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_meals_of_the_day
-GET {{baseUrl}}/meal?date=2024-06-14
+GET {{baseUrl}}/meal?order_by=meal_date
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

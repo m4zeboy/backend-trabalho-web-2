@@ -11,7 +11,8 @@ export class ListMealsController {
     @Query('page') page: number = 1,
     @Query('date') date?: Date,
     @Query('shift') shift?: MealShift,
+    @Query('order_by') order_by?: string,
   ) {
-    return this.mealService.findAll({ page, limit: 10 }, date, shift)
+    return this.mealService.findAll({ page, limit: 10 }, date, shift, order_by)
   }
 }

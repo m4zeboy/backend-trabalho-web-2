@@ -9,7 +9,7 @@ import { Voucher } from './entities/voucher.entity'
 export class VoucherService {
   constructor(
     @InjectRepository(Voucher) private repository: Repository<Voucher>,
-  ) {}
+  ) { }
 
   create(createVoucherDto: CreateVoucherDto) {
     const voucher = this.repository.create(createVoucherDto)
@@ -64,7 +64,7 @@ export class VoucherService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} voucher`
+    return this.repository.findOneBy({ id })
   }
 
   update(id: number) {

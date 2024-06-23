@@ -16,7 +16,12 @@ export class MealService {
     return this.repository.save(meal)
   }
 
-  async findAll(options: IPaginationOptions, date?: Date, shift?: MealShift) {
+  async findAll(
+    options: IPaginationOptions,
+    date?: Date,
+    shift?: MealShift,
+    order_by?: string,
+  ) {
     const where: FindOptionsWhere<Meal> = {}
     // Da pra pesquisar por data ou turno, ou os dois juntos.
     if (date) {
@@ -25,7 +30,12 @@ export class MealService {
     if (shift) {
       where.shift = shift
     }
-    return paginate<Meal>(this.repository, options, { where })
+    if (!order_by) {
+      order_by = 'createdAt'
+    }
+    const order = {}
+    order[order_by] = 'DESC'
+    return paginate<Meal>(this.repository, options, { where, order })
   }
 
   findOne(id: number) {

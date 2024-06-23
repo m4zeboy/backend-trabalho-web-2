@@ -49,7 +49,7 @@ export class Meal extends BaseEntity {
     startLunchWindow.setHours(10, 0, 0)
 
     const endLunchWindow = new Date()
-    endLunchWindow.setHours(13, 30, 0)
+    endLunchWindow.setHours(17, 30, 0)
 
     const startDinnerWindow = new Date()
     startDinnerWindow.setHours(18, 0, 0)
