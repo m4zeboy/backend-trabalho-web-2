@@ -5,6 +5,7 @@ import { OrdersModule } from 'src/orders/orders.module'
 import { VoucherModule } from 'src/voucher/voucher.module'
 import { CreateCreditCardPaymentController } from './controllers/create-credit-card-payment.controller'
 import { CreatePixPaymentController } from './controllers/create-pix-payment.controller'
+import { GetPaymentController } from './controllers/get-payment.controller copy'
 import { ProcessPaymentController } from './controllers/process-payment.controller'
 import { CreditCardPayment } from './entities/credit-card-payment.entity'
 import { OrderPayment } from './entities/order-payment.entity'
@@ -24,6 +25,7 @@ import { PaymentService } from './payment.service'
     CreateCreditCardPaymentController,
     ProcessPaymentController,
     CreatePixPaymentController,
+    GetPaymentController,
   ],
 })
-export class PaymentModule {}
+export class PaymentModule { }
