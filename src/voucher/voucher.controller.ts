@@ -1,11 +1,10 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Query,
+  Query
 } from '@nestjs/common'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { Voucher } from './entities/voucher.entity'
@@ -13,7 +12,7 @@ import { VoucherService } from './voucher.service'
 
 @Controller('voucher')
 export class VoucherController {
-  constructor(private readonly voucherService: VoucherService) {}
+  constructor(private readonly voucherService: VoucherService) { }
 
   @Post()
   create(@Body() createVoucherDto: CreateVoucherDto) {
@@ -38,8 +37,8 @@ export class VoucherController {
     return this.voucherService.findOne(+id)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.voucherService.remove(+id)
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: number) {
+  //   return this.voucherService.remove(+id)
+  // }
 }

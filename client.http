@@ -1,4 +1,6 @@
-@baseUrl = http://localhost:3333
+# @baseUrl = http://localhost:3333
+@baseUrl = https://a59e-201-216-102-20.ngrok-free.app
+
 @authToken = {{authenticate.response.body.access_token}}
 @order_id = {{order.response.body.id}}
 @payment_id_by_credit_card = {{set_credit_card.response.body.id}}
@@ -22,7 +24,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin2@email.com",
+  "email": "john.doe@email.com",
   "password": "Pa$$word"  
 }
 
@@ -167,7 +169,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name list_vouchers
-GET {{baseUrl}}/voucher?user_id=1&order_by=createdAt
+GET {{baseUrl}}/voucher?user_id=4&order_by=createdAt&order_by_direction=DESC
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

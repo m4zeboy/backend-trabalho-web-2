@@ -39,17 +39,17 @@ export class Meal extends BaseEntity {
   @OneToMany(() => Order, (order) => order.meal)
   public orders: Order[]
 
-  @OneToMany(() => Feedback, (feedback) => feedback.subject)
+  @OneToMany(() => Feedback, (feedback) => feedback.subject, { eager: true })
   public feedbacks: Feedback[]
 
   private getPurchaseWindow() {
     const PURCHASE_WINDOW = new Map<MealShift, Date[]>()
 
     const startLunchWindow = new Date()
-    startLunchWindow.setHours(10, 0, 0)
+    startLunchWindow.setHours(9, 0, 0)
 
     const endLunchWindow = new Date()
-    endLunchWindow.setHours(18, 30, 0)
+    endLunchWindow.setHours(17, 30, 0)
 
     const startDinnerWindow = new Date()
     startDinnerWindow.setHours(18, 0, 0)

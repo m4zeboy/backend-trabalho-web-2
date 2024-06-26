@@ -15,6 +15,6 @@ export class Feedback extends BaseEntity {
   @JoinTable()
   public commented_by: User
 
-  @ManyToOne(() => Meal, (meal) => meal.feedbacks, { eager: true })
+  @ManyToOne(() => Meal, (meal) => meal.feedbacks)
   public subject: Meal
 }

@@ -66,12 +66,4 @@ export class VoucherService {
   findOne(id: number) {
     return this.repository.findOneBy({ id })
   }
-
-  update(id: number) {
-    return `This action updates a #${id} voucher`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} voucher`
-  }
 }
