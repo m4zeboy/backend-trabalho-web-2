@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
-import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm'
+import { Repository, Between, FindOptionsWhere, FindOptionsOrder } from 'typeorm'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { Voucher } from './entities/voucher.entity'
 
@@ -20,13 +20,14 @@ export class VoucherService {
     options: IPaginationOptions,
     query?: {
       user_id?: number
-      order_by?: keyof Voucher
-      order_by_direction: 'ASC' | 'DESC'
+      order_by?: keyof typeof Voucher
+      order_by_direction?: 'ASC' | 'DESC'
     },
   ) {
     const where: FindOptionsWhere<Voucher> = {}
     const order: FindOptionsOrder<Voucher> = {}
-    if (query.user_id) {
+
+    if (query?.user_id) {
       where.order = {
         requester: {
           id: query.user_id,
@@ -35,9 +36,7 @@ export class VoucherService {
     }
 
     if (query?.order_by) {
-      order[query.order_by] = query.order_by_direction
-        ? query.order_by_direction
-        : 'DESC'
+      order[query.order_by] = query.order_by_direction || 'DESC'
     }
 
     return paginate(this.repository, options, { where, order })
@@ -50,7 +49,6 @@ export class VoucherService {
   }
 
   async findOneById(id: number): Promise<Voucher | null> {
-    /* Tem o Null pois ele pode retornar um valor nulo (quando não achar o voucher) */
     return await this.repository.findOne({ where: { id } })
   }
 
@@ -65,5 +63,21 @@ export class VoucherService {
 
   findOne(id: number) {
     return this.repository.findOneBy({ id })
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} voucher`
+  }
+
+  async findVouchersByDate(date: string, options: IPaginationOptions) {
+    const startDate = new Date(date)
+    const endDate = new Date(date)
+    endDate.setDate(startDate.getDate() + 1)
+
+    return paginate(this.repository, options, {
+      where: {
+        createdAt: Between(startDate, endDate)
+      }
+    })
   }
 }
