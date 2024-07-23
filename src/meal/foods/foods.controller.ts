@@ -18,7 +18,7 @@ import { FoodsService } from './foods.service'
 
 @Controller('foods')
 export class FoodsController {
-  constructor(private readonly foodsService: FoodsService) { }
+  constructor(private readonly foodsService: FoodsService) {}
 
   @Post()
   @RequiresRole(UserRole.ADMIN)

@@ -1,5 +1,5 @@
-# @baseUrl = http://localhost:3333
-@baseUrl = https://a59e-201-216-102-20.ngrok-free.app
+@baseUrl = http://localhost:3333
+# @baseUrl = https://a59e-201-216-102-20.ngrok-free.app
 
 @authToken = {{authenticate.response.body.access_token}}
 @order_id = {{order.response.body.id}}
@@ -191,3 +191,13 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/feedback/8?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name report_vouchers
+GET {{baseUrl}}/voucher/report/by-date?date=2024-06-25
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+

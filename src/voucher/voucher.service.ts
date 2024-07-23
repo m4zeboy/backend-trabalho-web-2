@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate'
-import { Repository, Between, FindOptionsWhere, FindOptionsOrder } from 'typeorm'
+import {
+  Repository,
+  Between,
+  FindOptionsWhere,
+  FindOptionsOrder,
+} from 'typeorm'
 import { CreateVoucherDto } from './dto/create-voucher.dto'
 import { Voucher } from './entities/voucher.entity'
 
@@ -9,7 +14,7 @@ import { Voucher } from './entities/voucher.entity'
 export class VoucherService {
   constructor(
     @InjectRepository(Voucher) private repository: Repository<Voucher>,
-  ) { }
+  ) {}
 
   create(createVoucherDto: CreateVoucherDto) {
     const voucher = this.repository.create(createVoucherDto)
@@ -76,8 +81,8 @@ export class VoucherService {
 
     return paginate(this.repository, options, {
       where: {
-        createdAt: Between(startDate, endDate)
-      }
+        createdAt: Between(startDate, endDate),
+      },
     })
   }
 }

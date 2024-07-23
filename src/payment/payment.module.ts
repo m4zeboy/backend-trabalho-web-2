@@ -28,4 +28,4 @@ import { PaymentService } from './payment.service'
     GetPaymentController,
   ],
 })
-export class PaymentModule { }
+export class PaymentModule {}

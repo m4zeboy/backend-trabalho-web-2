@@ -8,7 +8,7 @@ import { Food } from './entities/food.entity'
 
 @Injectable()
 export class FoodsService {
-  constructor(@InjectRepository(Food) private repository: Repository<Food>) { }
+  constructor(@InjectRepository(Food) private repository: Repository<Food>) {}
 
   create(createFoodDto: CreateFoodDto) {
     const food = this.repository.create(createFoodDto)

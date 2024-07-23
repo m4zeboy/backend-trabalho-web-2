@@ -18,4 +18,4 @@ import { MealService } from './meal.service'
   ],
   exports: [MealService],
 })
-export class MealModule { }
+export class MealModule {}

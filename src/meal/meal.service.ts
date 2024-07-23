@@ -9,7 +9,7 @@ import { Meal, MealShift } from './entities/meal.entity'
 
 @Injectable()
 export class MealService {
-  constructor(@InjectRepository(Meal) private repository: Repository<Meal>) { }
+  constructor(@InjectRepository(Meal) private repository: Repository<Meal>) {}
 
   async create(createMealDto: CreateMealDto) {
     const meal = this.repository.create(createMealDto)

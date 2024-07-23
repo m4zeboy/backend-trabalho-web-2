@@ -20,7 +20,7 @@ export class PaymentService {
     private creditCardPaymentRepository: Repository<CreditCardPayment> /* Repositório da sub class de cartão de crédito */,
     @InjectRepository(PixPayment)
     private pixPaymentRepository: Repository<PixPayment> /* Repositório da sub class de cartão de crédito */,
-  ) { }
+  ) {}
 
   /* Cria um pagamento com cartão de crédito */
   async createCreditCard(

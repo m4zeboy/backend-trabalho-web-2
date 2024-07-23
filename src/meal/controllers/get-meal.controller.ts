@@ -3,7 +3,7 @@ import { MealService } from '../meal.service'
 
 @Controller('meal')
 export class GetMealController {
-  constructor(private readonly mealService: MealService) { }
+  constructor(private readonly mealService: MealService) {}
 
   @Get(':id')
   execute(@Param('id') id: number = -1) {
